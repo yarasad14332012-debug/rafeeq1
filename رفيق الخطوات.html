@@ -1,0 +1,1463 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>رفيق الخطوات</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: sticky header + scrollable pill nav; each section is a hash-routed view inside one centered column. */
+:root{
+  --paper:#F1F5F6;
+  --surface:#FFFFFF;
+  --tint:#E2EFF1;
+  --ink:#15313A;
+  --muted:#566D74;
+  --line:#D3E0E3;
+  --teal:#0E6E78;
+  --teal-ink:#FFFFFF;
+  --sun:#F2B33D;
+  --sun-soft:#FCEFD2;
+  --coral:#D9614F;
+  --coral-soft:#F9E1DC;
+  --leaf:#3C8F5A;
+  --leaf-soft:#DDF0E3;
+  --plum:#7A5BB5;
+  --plum-soft:#ECE5F7;
+  --lineart:#2B3A40;
+  --drawpaper:#FFFFFF;
+  --shadow:0 1px 2px rgba(21,49,58,.06),0 6px 18px rgba(21,49,58,.06);
+  --f-display:"Baloo Bhaijaan 2","IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif;
+  --f-body:"IBM Plex Sans Arabic","Segoe UI",Tahoma,"Noto Sans Arabic",sans-serif;
+  --r:18px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0E1A1E; --surface:#15252A; --tint:#1B3036; --ink:#E5F0F1; --muted:#9BB1B6; --line:#28403F;
+    --teal:#4FB7C1; --teal-ink:#06262A; --sun:#F4C15A; --sun-soft:#3A3120; --coral:#F08A7B; --coral-soft:#3E2622;
+    --leaf:#6CC08A; --leaf-soft:#1E3527; --plum:#B39BE6; --plum-soft:#2C2540;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0E1A1E; --surface:#15252A; --tint:#1B3036; --ink:#E5F0F1; --muted:#9BB1B6; --line:#28403F;
+  --teal:#4FB7C1; --teal-ink:#06262A; --sun:#F4C15A; --sun-soft:#3A3120; --coral:#F08A7B; --coral-soft:#3E2622;
+  --leaf:#6CC08A; --leaf-soft:#1E3527; --plum:#B39BE6; --plum-soft:#2C2540;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.75;}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--paper)}
+h1,h2,h3,h4{font-family:var(--f-display);line-height:1.25;text-wrap:balance;margin:0}
+p{margin:0}
+a{color:var(--teal)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px;border-radius:8px}
+.wrap{max-width:1080px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top-row{display:flex;align-items:center;gap:12px;padding-block:10px 4px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);margin-inline-end:auto}
+.brand-mark{width:38px;height:38px;flex:none}
+.brand b{font-family:var(--f-display);font-size:1.35rem;font-weight:800}
+.stars{display:flex;align-items:center;gap:6px;background:var(--sun-soft);color:var(--ink);border-radius:999px;padding:4px 12px;font-weight:700;font-variant-numeric:tabular-nums}
+.stars svg{width:18px;height:18px}
+.stars.pop{animation:pop .5s}
+@keyframes pop{40%{transform:scale(1.25)}}
+.icon-btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;width:38px;height:38px;display:grid;place-items:center;cursor:pointer}
+.icon-btn svg{width:18px;height:18px}
+.nav{overflow-x:auto;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav ul{list-style:none;margin:0;padding:6px 0 10px;display:flex;gap:6px;width:max-content}
+.nav a{display:block;text-decoration:none;color:var(--muted);padding:6px 14px;border-radius:999px;font-weight:600;font-size:.95rem;white-space:nowrap}
+.nav a:hover{background:var(--tint);color:var(--ink)}
+.nav a[aria-current="page"]{background:var(--teal);color:var(--teal-ink)}
+
+main{padding-block:24px 56px}
+.view{display:flex;flex-direction:column;gap:28px}
+.eyebrow{font-size:.8rem;letter-spacing:.04em;color:var(--teal);font-weight:700}
+.lead{color:var(--muted);max-width:62ch;font-size:1.05rem}
+.sec-head{display:flex;flex-direction:column;gap:8px}
+.sec-head h1{font-size:clamp(1.8rem,4.5vw,2.6rem)}
+.sec-head h2{font-size:clamp(1.4rem,3.5vw,1.9rem)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--shadow);min-width:0}
+.panel h3{font-size:1.3rem;margin-bottom:6px}
+.panel > .sub{color:var(--muted);margin-bottom:14px;font-size:.95rem}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+@media (max-width:820px){.grid4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.note{font-size:.85rem;color:var(--muted)}
+
+/* buttons */
+.btn{border:0;border-radius:12px;padding:10px 18px;font-weight:700;cursor:pointer;background:var(--teal);color:var(--teal-ink);display:inline-flex;align-items:center;gap:8px;text-decoration:none;min-height:44px}
+.btn:hover{filter:brightness(1.07)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.soft{background:var(--tint);color:var(--ink)}
+.btn.sun{background:var(--sun);color:#2A2108}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.btn.sm{padding:6px 12px;min-height:36px;font-size:.9rem;border-radius:10px}
+.seg{display:inline-flex;background:var(--tint);border-radius:12px;padding:4px;gap:4px;flex-wrap:wrap}
+.seg button{border:0;background:transparent;padding:6px 14px;border-radius:9px;cursor:pointer;font-weight:600;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;cursor:pointer;font-size:.9rem}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.feedback{min-height:1.9em;font-weight:700;font-size:1.05rem;transition:color .2s}
+.feedback.good{color:var(--leaf)}
+.feedback.try{color:var(--coral)}
+.say{border:0;background:var(--sun-soft);color:var(--ink);border-radius:999px;padding:6px 12px;cursor:pointer;font-weight:600;display:inline-flex;gap:6px;align-items:center}
+.say svg{width:16px;height:16px}
+.no-speech .say{display:none}
+
+/* home */
+.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;align-items:center}
+@media (max-width:820px){.hero{grid-template-columns:1fr}}
+.hero h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:800}
+.hero h1 span{color:var(--teal)}
+.hero .lead{margin-top:12px}
+.hero .row{margin-top:20px}
+.nn{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow)}
+.nn-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.nn-head b{font-family:var(--f-display);font-size:1.1rem}
+.nn-cards{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}
+.nn-card{border-radius:16px;padding:14px 10px;text-align:center;min-width:0}
+.nn-card.now{background:var(--leaf-soft);border:2px solid var(--leaf)}
+.nn-card.next{background:var(--tint);border:2px dashed var(--line)}
+.nn-card small{display:block;font-weight:700;font-size:.8rem;color:var(--muted)}
+.nn-card .emo{font-size:2.6rem;line-height:1.2;display:block}
+.nn-card .nm{font-weight:700}
+.nn-arrow{color:var(--muted);font-size:1.4rem}
+.tile{display:flex;flex-direction:column;gap:8px;text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;transition:transform .15s,border-color .15s;min-width:0}
+.tile:hover{transform:translateY(-2px);border-color:var(--teal)}
+.tile .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center}
+.tile .ic svg{width:24px;height:24px}
+.tile b{font-family:var(--f-display);font-size:1.1rem}
+.tile span{font-size:.88rem;color:var(--muted);line-height:1.6}
+.c-teal{background:var(--tint);color:var(--teal)}
+.c-sun{background:var(--sun-soft);color:#A66F00}
+.c-coral{background:var(--coral-soft);color:var(--coral)}
+.c-leaf{background:var(--leaf-soft);color:var(--leaf)}
+.c-plum{background:var(--plum-soft);color:var(--plum)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .c-sun{color:var(--sun)}}
+:root[data-theme="dark"] .c-sun{color:var(--sun)}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+@media (max-width:820px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.fact{border-top:3px solid var(--teal);padding-top:10px}
+.fact b{font-family:var(--f-display);font-size:1.6rem;display:block;font-variant-numeric:tabular-nums}
+.fact p{font-size:.9rem;color:var(--muted)}
+.fact a{font-size:.78rem}
+
+/* guide */
+.def{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}
+@media (max-width:700px){.def{grid-template-columns:1fr}}
+.def div{background:var(--tint);border-radius:14px;padding:14px}
+.def b{display:block;font-family:var(--f-display);font-size:1.05rem}
+.def p{font-size:.92rem;color:var(--muted)}
+.levels{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:12px}
+@media (max-width:700px){.levels{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.levels div{border:1px solid var(--line);border-radius:12px;padding:10px;font-size:.88rem}
+.levels b{display:block}
+.cond{display:flex;flex-direction:column;gap:12px}
+.cond-head{display:flex;gap:12px;align-items:flex-start}
+.cond-badge{width:48px;height:48px;border-radius:14px;flex:none;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.2rem}
+.cond-head h3{font-size:1.25rem;margin:0}
+.cond-head .tag{font-size:.8rem;color:var(--muted)}
+.cond details{border-top:1px solid var(--line);padding-top:8px}
+.cond summary{cursor:pointer;font-weight:700;color:var(--teal);list-style:none;display:flex;align-items:center;gap:6px}
+.cond summary::-webkit-details-marker{display:none}
+.cond summary::before{content:"+";display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--tint)}
+.cond details[open] summary::before{content:"−"}
+.cond h4{font-size:1rem;margin-top:12px;color:var(--ink)}
+.cond ul{margin:4px 0 0;padding-inline-start:20px}
+.cond li{margin-block:2px}
+.src{font-size:.8rem;color:var(--muted);margin-top:10px}
+
+/* care */
+.tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px;counter-reset:t}
+.tip{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0}
+.tip b{display:block;font-family:var(--f-display);font-size:1.08rem;margin-bottom:4px}
+.tip p{font-size:.93rem;color:var(--muted)}
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:420px}
+th,td{text-align:start;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.85rem;color:var(--muted)}
+td.no{color:var(--coral);text-decoration:line-through;text-decoration-thickness:1px}
+td.yes{color:var(--leaf);font-weight:700}
+.steps{display:flex;flex-direction:column;gap:10px;counter-reset:s;margin:0;padding:0;list-style:none}
+.steps li{counter-increment:s;display:flex;gap:12px;align-items:flex-start}
+.steps li::before{content:counter(s);flex:none;width:28px;height:28px;border-radius:50%;background:var(--coral-soft);color:var(--coral);display:grid;place-items:center;font-weight:800;font-size:.9rem}
+
+/* activity module header */
+.mod-nav{display:flex;flex-wrap:wrap;gap:8px}
+.stage{background:var(--tint);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px;align-items:center;min-width:0}
+.stage svg{max-width:100%;height:auto}
+.opts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.opt{border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:10px 16px;cursor:pointer;font-weight:700;font-size:1.05rem;min-height:52px;display:inline-flex;align-items:center;gap:8px}
+.opt:hover{border-color:var(--teal)}
+.opt.right{border-color:var(--leaf);background:var(--leaf-soft)}
+.opt.wrong{border-color:var(--coral);background:var(--coral-soft)}
+.swatch{width:22px;height:22px;border-radius:50%;display:inline-block;border:2px solid rgba(0,0,0,.12)}
+.cover{width:100%;max-width:420px;aspect-ratio:400/220;border-radius:14px;background:var(--surface);display:grid;place-items:center;font-family:var(--f-display);font-size:3rem;color:var(--muted);border:2px dashed var(--line)}
+.bar{width:100%;max-width:420px;height:8px;background:var(--surface);border-radius:8px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--sun);width:100%}
+.puzzle{display:grid;gap:4px;width:min(100%,330px);aspect-ratio:1;background:var(--surface);padding:4px;border-radius:12px}
+.puzzle button{border:0;padding:0;border-radius:6px;cursor:pointer;background-repeat:no-repeat;outline-offset:-3px}
+.puzzle button.sel{outline:4px solid var(--sun)}
+.puzzle.done button{border-radius:0}
+.pattern{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.pattern .cell{width:62px;height:62px;background:var(--surface);border-radius:12px;display:grid;place-items:center}
+.pattern .cell.q{border:2px dashed var(--teal);font-family:var(--f-display);font-size:1.8rem;color:var(--teal)}
+.prt-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:700px){.prt-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.prt-steps div{border-radius:14px;padding:12px;background:var(--plum-soft)}
+.prt-steps b{display:block;color:var(--plum);font-family:var(--f-display)}
+.prt-steps p{font-size:.88rem}
+.toy{font-size:2.2rem;border:2px solid var(--line);background:var(--surface);border-radius:16px;width:84px;height:84px;cursor:pointer;display:grid;place-items:center}
+.toy[aria-pressed="true"]{border-color:var(--plum);background:var(--plum-soft)}
+.reward{font-size:4rem;line-height:1}
+.reward.go{animation:bounce .9s}
+@keyframes bounce{30%{transform:translateY(-28px) rotate(-10deg)}60%{transform:translateY(0)}80%{transform:translateY(-8px)}}
+
+/* time */
+.sched{display:flex;flex-direction:column;gap:8px;width:100%}
+.si{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:8px 10px}
+.si .emo{font-size:1.8rem;width:44px;text-align:center;flex:none}
+.si .nm{flex:1;font-weight:700;min-width:0}
+.si input[type=time]{border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:4px 6px;width:7.2em;font-variant-numeric:tabular-nums}
+.si.done{opacity:.55}
+.si.done .nm{text-decoration:line-through}
+.si.cur{border:2px solid var(--leaf)}
+.si .acts{display:flex;gap:4px}
+.mini{border:1px solid var(--line);background:var(--paper);border-radius:8px;width:34px;height:34px;cursor:pointer;display:grid;place-items:center;font-weight:700}
+.mini svg{width:16px;height:16px}
+.mini.ok{background:var(--leaf-soft);color:var(--leaf);border-color:var(--leaf)}
+.palette{display:flex;flex-wrap:wrap;gap:8px}
+.palette button{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:6px 10px;cursor:pointer;display:inline-flex;gap:6px;align-items:center;font-weight:600}
+.change{background:var(--sun-soft);border-radius:14px;padding:14px;width:100%}
+.timer-wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
+.timer-wrap svg{width:min(260px,70vw)}
+.timer-read{font-family:var(--f-display);font-size:2.2rem;font-variant-numeric:tabular-nums}
+.clock-face{width:min(240px,70vw)}
+.seq{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.seq button{position:relative;width:120px;border:2px solid var(--line);background:var(--surface);border-radius:16px;padding:12px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px}
+.seq button .emo{font-size:2.4rem;line-height:1.2}
+.seq button .nm{font-size:.88rem;font-weight:600;line-height:1.4}
+.seq button .num{position:absolute;top:-10px;inset-inline-start:-10px;width:28px;height:28px;border-radius:50%;background:var(--leaf);color:#fff;font-weight:800;display:grid;place-items:center}
+.seq button.picked{border-color:var(--leaf)}
+.shake{animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* eyes */
+.facebox{position:relative;width:min(280px,72vw);aspect-ratio:1}
+.facebox svg{width:100%;height:100%}
+.eye-hit{position:absolute;left:22%;right:22%;top:30%;height:22%;border:0;background:transparent;cursor:pointer;border-radius:40px}
+.gaze{display:grid;grid-template-columns:1fr auto 1fr;grid-template-rows:auto auto;gap:10px;align-items:center;justify-items:center;width:100%;max-width:480px}
+.gaze .facebox{width:min(200px,46vw)}
+.gaze .obj{font-size:2.6rem;width:84px;height:84px;border-radius:18px;border:2px solid var(--line);background:var(--surface);cursor:pointer}
+.gaze .down{grid-column:2}
+.tower{display:flex;flex-direction:column-reverse;align-items:center;gap:3px;min-height:220px;justify-content:flex-start}
+.tower i{display:block;width:120px;height:18px;border-radius:5px}
+.turn{font-family:var(--f-display);font-size:1.3rem}
+
+/* art */
+.canvas-box{position:relative;width:100%;border-radius:14px;overflow:hidden;background:var(--drawpaper);border:1px solid var(--line);touch-action:none}
+.canvas-box canvas{position:absolute;inset:0;width:100%;height:100%}
+.colors{display:flex;flex-wrap:wrap;gap:8px}
+.colors button{width:36px;height:36px;border-radius:50%;border:3px solid var(--surface);box-shadow:0 0 0 1px var(--line);cursor:pointer}
+.colors button[aria-pressed="true"]{box-shadow:0 0 0 3px var(--ink)}
+.color-page{width:100%;max-width:520px;background:var(--drawpaper);border-radius:14px;border:1px solid var(--line)}
+.color-page [data-r]{cursor:pointer;stroke:var(--lineart);stroke-width:3;stroke-linejoin:round}
+.mem{display:grid;gap:8px;width:100%;max-width:440px}
+.card{aspect-ratio:1;perspective:600px;border:0;background:transparent;padding:0;cursor:pointer}
+.card .in{position:relative;width:100%;height:100%;transition:transform .35s;transform-style:preserve-3d}
+.card.flip .in,.card.got .in{transform:rotateY(180deg)}
+.card .f,.card .b{position:absolute;inset:0;border-radius:12px;display:grid;place-items:center;backface-visibility:hidden}
+.card .f{background:var(--teal);color:var(--teal-ink);font-family:var(--f-display);font-size:1.6rem}
+.card .b{background:var(--surface);transform:rotateY(180deg);font-size:clamp(1.6rem,7vw,2.4rem);border:2px solid var(--line)}
+.card.got .b{border-color:var(--leaf);background:var(--leaf-soft)}
+
+/* letters */
+.abc{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;direction:rtl}
+@media (max-width:520px){.abc{grid-template-columns:repeat(5,minmax(0,1fr))}}
+.abc button{aspect-ratio:1;border:1px solid var(--line);background:var(--surface);border-radius:12px;font-family:var(--f-display);font-size:1.6rem;font-weight:700;cursor:pointer;color:var(--ink)}
+.abc button[aria-pressed="true"]{background:var(--teal);color:var(--teal-ink);border-color:var(--teal)}
+.letter-card{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center}
+@media (max-width:520px){.letter-card{grid-template-columns:1fr;text-align:center}}
+.big-letter{font-family:var(--f-display);font-size:6rem;line-height:1;width:140px;height:140px;border-radius:24px;background:var(--sun-soft);display:grid;place-items:center;margin-inline:auto}
+.forms{display:flex;gap:8px;flex-wrap:wrap;margin-block:8px}
+.forms span{background:var(--tint);border-radius:10px;padding:2px 12px;font-size:1.6rem;font-family:var(--f-display)}
+.forms small{display:block;font-size:.7rem;color:var(--muted);font-family:var(--f-body);text-align:center}
+.slots{display:flex;gap:8px;justify-content:center;direction:rtl;flex-wrap:wrap}
+.slot{width:58px;height:66px;border-radius:12px;border:2px dashed var(--teal);background:var(--surface);font-family:var(--f-display);font-size:2rem;cursor:pointer;display:grid;place-items:center;color:var(--ink)}
+.slot.filled{border-style:solid}
+.slot.ok{border-color:var(--leaf);background:var(--leaf-soft)}
+.slot.bad{border-color:var(--coral);background:var(--coral-soft)}
+.slot.hint{color:var(--muted)}
+.tiles{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;direction:rtl}
+.ltile{width:54px;height:58px;border-radius:12px;border:0;background:var(--sun);color:#2A2108;font-family:var(--f-display);font-size:1.8rem;font-weight:700;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.15)}
+.ltile:disabled{opacity:.2;cursor:default}
+.joined{font-family:var(--f-display);font-size:2.6rem;color:var(--leaf);min-height:1.3em}
+.trace-box{position:relative;width:min(100%,340px);aspect-ratio:1;border-radius:16px;overflow:hidden;background:var(--drawpaper);border:1px solid var(--line);touch-action:none}
+.trace-box canvas{position:absolute;inset:0;width:100%;height:100%}
+
+/* ai */
+.ai-off{background:var(--sun-soft);border-radius:14px;padding:14px}
+.chat{display:flex;flex-direction:column;gap:10px;max-height:460px;overflow-y:auto;padding:4px}
+.msg{max-width:88%;padding:10px 14px;border-radius:16px;line-height:1.75;min-width:0;overflow-wrap:anywhere}
+.msg.u{align-self:flex-start;background:var(--teal);color:var(--teal-ink);border-end-start-radius:4px}
+.msg.a{align-self:flex-end;background:var(--tint);border-end-end-radius:4px}
+.msg.a h4{font-size:1.02rem;margin-top:6px}
+.msg ul,.msg ol,.md ul,.md ol{margin:4px 0;padding-inline-start:22px}
+.md h4{font-size:1.15rem;margin-top:10px;color:var(--teal)}
+.md p{margin-block:6px}
+.composer{display:flex;gap:8px;align-items:flex-end}
+textarea,input[type=text],select{border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:10px 12px;width:100%;min-width:0}
+textarea{resize:vertical;min-height:52px}
+.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:600px){.form{grid-template-columns:1fr}}
+.form label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:.92rem}
+.form .full{grid-column:1/-1}
+.thinking{color:var(--muted);font-style:normal}
+.thinking::after{content:"";display:inline-block;width:1.2em;text-align:start;animation:dots 1.2s steps(4) infinite}
+@keyframes dots{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}}
+.book{display:flex;flex-direction:column;align-items:center;gap:12px}
+.page{width:100%;max-width:520px;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:24px;text-align:center;box-shadow:var(--shadow);min-height:240px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.page .emo{font-size:3.6rem;line-height:1.2}
+.page p{font-size:1.25rem;line-height:1.9}
+.page .pn{font-size:.8rem;color:var(--muted)}
+.dots{display:flex;gap:6px}
+.dots i{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--teal)}
+.story-list{display:flex;flex-direction:column;gap:6px}
+.story-list p{padding:8px 12px;border-inline-start:3px solid var(--sun);background:var(--paper);border-radius:6px}
+
+.src-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:10px}
+.src-list li{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.src-list b{display:block}
+.src-list span{font-size:.85rem;color:var(--muted)}
+footer{border-top:1px solid var(--line);padding-block:20px;color:var(--muted);font-size:.85rem}
+
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div id="app" dir="rtl" lang="ar">
+<header class="top">
+  <div class="wrap">
+    <div class="top-row">
+      <a class="brand" href="#home" aria-label="رفيق الخطوات، الرئيسية">
+        <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="var(--teal)"/><path d="M11 27c4-1 6-5 6-9s3-7 7-7" fill="none" stroke="var(--teal-ink)" stroke-width="3.2" stroke-linecap="round"/><circle cx="27" cy="25" r="5" fill="var(--sun)"/><circle cx="12" cy="13" r="3" fill="var(--teal-ink)"/></svg>
+        <b>رفيق الخطوات</b>
+      </a>
+      <div class="stars" id="stars" title="نجوم التشجيع"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 20.9l1.6-7L2 9.2l7.1-.6z" fill="var(--sun)"/></svg><span id="starN">0</span></div>
+      <button class="icon-btn" id="soundBtn" aria-label="تشغيل الصوت أو إيقافه" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9z"/><path id="waves" d="M16 9a4 4 0 010 6M19 6a8 8 0 010 12"/></svg></button>
+    </div>
+    <nav class="nav" aria-label="أقسام التطبيق">
+      <ul>
+        <li><a href="#home">الرئيسية</a></li>
+        <li><a href="#guide">دليل الإعاقات</a></li>
+        <li><a href="#care">طرق التعامل</a></li>
+        <li><a href="#mind">التصور الذهني</a></li>
+        <li><a href="#time">الوقت واليوم</a></li>
+        <li><a href="#eyes">التواصل البصري</a></li>
+        <li><a href="#art">الرسم والذاكرة</a></li>
+        <li><a href="#letters">الحروف والكتابة</a></li>
+        <li><a href="#ask">اسأل الذكاء الاصطناعي</a></li>
+        <li><a href="#sources">المصادر</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- HOME -->
+<section class="view" data-view="home">
+  <div class="hero">
+    <div>
+      <p class="eyebrow">للأسرة والمعلم والأخصائي</p>
+      <h1>خطوة صغيرة كل يوم، <span>وتقدّم يُرى</span></h1>
+      <p class="lead">دليل مبسّط من مصادر موثوقة عن الإعاقات الذهنية والنمائية، مع أنشطة وألعاب تفاعلية تنمّي الانتباه واللغة والتواصل وتنظيم الوقت والكتابة.</p>
+      <div class="row">
+        <a class="btn" href="#mind">ابدأ الأنشطة</a>
+        <a class="btn soft" href="#guide">اقرأ الدليل</a>
+      </div>
+    </div>
+    <div class="nn" aria-live="polite">
+      <div class="nn-head"><b>جدول اليوم</b><a href="#time" class="note">تعديل الجدول</a></div>
+      <div class="nn-cards" id="homeNN"></div>
+      <p class="note" style="margin-top:10px">لوحة «الآن ثم بعد ذلك» تساعد الطفل على توقّع ما سيحدث وتقلل القلق من الانتقال بين الأنشطة.</p>
+    </div>
+  </div>
+
+  <div class="grid4">
+    <a class="tile" href="#guide"><span class="ic c-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2z"/><path d="M4 19V5M9 7h6"/></svg></span><b>دليل الإعاقات</b><span>التوحد، متلازمة داون، إكس الهش، وغيرها</span></a>
+    <a class="tile" href="#care"><span class="ic c-coral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z"/></svg></span><b>طرق التعامل</b><span>تواصل، انفعالات، لغة الاحترام</span></a>
+    <a class="tile" href="#mind"><span class="ic c-plum"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0012 3z"/></svg></span><b>التصور الذهني</b><span>ألغاز وذاكرة بصرية والاستجابة المحورية</span></a>
+    <a class="tile" href="#time"><span class="ic c-leaf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><b>الوقت واليوم</b><span>جدول مصوّر، مؤقت، قراءة الساعة</span></a>
+    <a class="tile" href="#eyes"><span class="ic c-sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span><b>التواصل البصري</b><span>العينان، اتجاه النظر، المشاعر، تبادل الأدوار</span></a>
+    <a class="tile" href="#art"><span class="ic c-coral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 3l3 3-11 11H7v-3z"/><path d="M4 21c1.5 0 3-1 3-3"/></svg></span><b>الرسم والذاكرة</b><span>رسم حر، تلوين، بطاقات الذاكرة</span></a>
+    <a class="tile" href="#letters"><span class="ic c-teal"><svg viewBox="0 0 24 24" aria-hidden="true"><text x="12" y="18" text-anchor="middle" font-size="17" font-weight="700" fill="currentColor" font-family="IBM Plex Sans Arabic, sans-serif">أ</text></svg></span><b>الحروف والكتابة</b><span>الحروف، التهجئة، التتبع والتصحيح الذاتي</span></a>
+    <a class="tile" href="#ask"><span class="ic c-plum"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/><path d="M9 10h6"/></svg></span><b>اسأل الذكاء الاصطناعي</b><span>اسأل، فكرة نشاط، قصة اجتماعية</span></a>
+  </div>
+
+  <div class="panel">
+    <h3>أرقام من المصادر</h3>
+    <p class="sub">معلومات موجزة، وتفاصيلها في قسم الدليل.</p>
+    <div class="facts">
+      <div class="fact"><b>1 من 127</b><p>شخصًا حول العالم لديه توحد بحسب تقديرات 2021</p><a href="https://www.who.int/news-room/fact-sheets/detail/autism-spectrum-disorders" target="_blank" rel="noopener">منظمة الصحة العالمية</a></div>
+      <div class="fact"><b>1 من 640</b><p>مولودًا في الولايات المتحدة لديه متلازمة داون، نحو 5,700 طفل سنويًا</p><a href="https://www.cdc.gov/birth-defects/data-research/facts-stats/down-syndrome.html" target="_blank" rel="noopener">CDC</a></div>
+      <div class="fact"><b>قبل 22</b><p>سنة تظهر الإعاقة الذهنية وفق تعريف الجمعية الأمريكية للإعاقات الذهنية والنمائية</p><a href="https://www.aaidd.org/intellectual-disability/definition" target="_blank" rel="noopener">AAIDD</a></div>
+      <div class="fact"><b>FMR1</b><p>جين إكس الهش، أكثر الأسباب الوراثية الموروثة شيوعًا للإعاقة الذهنية</p><a href="https://www.nichd.nih.gov/health/topics/fragilex" target="_blank" rel="noopener">NICHD</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- GUIDE -->
+<section class="view" data-view="guide" hidden>
+  <div class="sec-head">
+    <p class="eyebrow">دليل الإعاقات</p>
+    <h1>ما الإعاقة الذهنية؟</h1>
+    <p class="lead">بحسب الجمعية الأمريكية للإعاقات الذهنية والنمائية (AAIDD)، هي حالة تتسم بمحدودية واضحة في الأداء الذهني وفي السلوك التكيفي معًا، وتبدأ أثناء مرحلة النمو.</p>
+  </div>
+  <div class="panel">
+    <h3>المعايير الثلاثة</h3>
+    <div class="def">
+      <div><b>الأداء الذهني</b><p>التعلم والاستدلال وحل المشكلات. تشير درجة ذكاء نحو 70 إلى 75 أو أقل إلى محدودية واضحة.</p></div>
+      <div><b>السلوك التكيفي</b><p>مهارات مفاهيمية (اللغة، القراءة، الوقت، المال)، واجتماعية (العلاقات، اتباع القواعد)، وعملية (العناية الذاتية، السلامة، العمل).</p></div>
+      <div><b>عمر الظهور</b><p>تظهر قبل سن 22 عامًا.</p></div>
+    </div>
+    <h3 style="margin-top:18px">مستويات الدعم</h3>
+    <p class="sub">تُحدَّد الشدة اليوم بمقدار الدعم الذي يحتاجه الشخص في حياته اليومية، لا بدرجة الذكاء وحدها.</p>
+    <div class="levels">
+      <div><b>بسيطة</b>يتعلم المهارات الأكاديمية الأساسية ويعيش باستقلالية كبيرة مع دعم في قرارات معقدة.</div>
+      <div><b>متوسطة</b>يتقن العناية الذاتية بالتدريب ويحتاج دعمًا منتظمًا في العمل والمال.</div>
+      <div><b>شديدة</b>لغة محدودة، ويحتاج دعمًا يوميًا في معظم الأنشطة.</div>
+      <div><b>عميقة</b>يعتمد على الآخرين في الرعاية، ويتواصل غالبًا بالإشارة والتعبير غير اللفظي.</div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <h2>الحالات الأكثر شيوعًا</h2>
+    <p class="lead">بعضها اضطرابات نمائية كالتوحد، وبعضها متلازمات وراثية. التوحد ليس إعاقة ذهنية بحد ذاته، لكنه يتقاطع معها كثيرًا، وتتفاوت القدرات الذهنية لدى ذوي التوحد تفاوتًا كبيرًا.</p>
+    <div class="row" id="guideFilter" role="group" aria-label="تصفية الحالات">
+      <button class="chip" aria-pressed="true" data-f="all">الكل</button>
+      <button class="chip" aria-pressed="false" data-f="dev">اضطرابات نمائية</button>
+      <button class="chip" aria-pressed="false" data-f="gen">متلازمات وراثية</button>
+    </div>
+  </div>
+  <div class="grid2" id="condGrid"></div>
+  <p class="note">هذه المعلومات توعوية ولا تغني عن تقييم الطبيب أو الأخصائي.</p>
+</section>
+
+<!-- CARE -->
+<section class="view" data-view="care" hidden>
+  <div class="sec-head">
+    <p class="eyebrow">طرق التعامل</p>
+    <h1>كيف أتواصل وأدعم؟</h1>
+    <p class="lead">مبادئ تنطبق على معظم الأطفال والكبار ذوي الإعاقات الذهنية والنمائية. ابدأ دائمًا من الشخص نفسه: ما يحبه، وما يزعجه، وكيف يعبّر.</p>
+  </div>
+  <div class="tips">
+    <div class="tip"><b>خاطبه هو</b><p>وجّه الكلام إلى الشخص مباشرة لا إلى مرافقه، حتى لو كانت لغته محدودة.</p></div>
+    <div class="tip"><b>جملة قصيرة، فكرة واحدة</b><p>استخدم كلمات مألوفة وطلبًا واحدًا في كل مرة: «البس الحذاء» ثم «افتح الباب».</p></div>
+    <div class="tip"><b>امنحه وقتًا للرد</b><p>انتظر من 5 إلى 10 ثوانٍ قبل أن تكرر. التكرار السريع يربك ولا يساعد.</p></div>
+    <div class="tip"><b>أرِه ولا تكتفِ بالكلام</b><p>الصور والإشارات والنمذجة (أن تفعل أمامه) تثبّت الفهم أكثر من الشرح.</p></div>
+    <div class="tip"><b>خياران أسهل من سؤال مفتوح</b><p>«تريد عصيرًا أم ماءً؟» يمنحه قرارًا واضحًا ويقلل الإحباط.</p></div>
+    <div class="tip"><b>امدح بدقة</b><p>«أحسنت، رتبت ألعابك في الصندوق» أقوى من «شاطر»، لأنه يحدد السلوك المطلوب.</p></div>
+    <div class="tip"><b>روتين متوقع وتهيئة للتغيير</b><p>أخبره مسبقًا بأي تغيير، واستخدم جدولًا مصورًا ولوحة «الآن ثم بعد ذلك».</p></div>
+    <div class="tip"><b>عامله بحسب عمره</b><p>المراهق والبالغ يُخاطَبان بما يناسب عمرهما، مع تبسيط اللغة لا تصغيرها.</p></div>
+  </div>
+
+  <div class="grid2">
+    <div class="panel">
+      <h3>عند نوبة الانفعال</h3>
+      <p class="sub">النوبة غالبًا استجابة لإرهاق حسي أو عاطفي، وليست عنادًا.</p>
+      <ol class="steps">
+        <li>ابقَ هادئًا وخفّض صوتك، فهدوؤك ينتقل إليه.</li>
+        <li>قلّل الكلام والضوء والضجيج، وأبعد ما قد يؤذيه.</li>
+        <li>امنحه مساحة آمنة، ولا تعاقب أو تجادل أثناء النوبة.</li>
+        <li>بعد الهدوء: اشربا ماءً، ثم لاحظ ما سبق النوبة لتتجنبه لاحقًا.</li>
+      </ol>
+    </div>
+    <div class="panel">
+      <h3>متى أطلب تقييمًا مختصًا؟</h3>
+      <p class="sub">علامات تستدعي مراجعة طبيب الأطفال مبكرًا:</p>
+      <ul class="steps" style="list-style:none">
+        <li>لا مناغاة ولا إشارة بالإصبع عند 12 شهرًا.</li>
+        <li>لا كلمات مفردة عند 16 شهرًا، أو لا عبارات من كلمتين عند 24 شهرًا.</li>
+        <li>فقدان أي مهارة لغوية أو اجتماعية اكتسبها سابقًا، في أي عمر.</li>
+        <li>ضعف ملحوظ في الاستجابة لاسمه أو في التفاعل مع من حوله.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>لغة الاحترام</h3>
+    <p class="sub">نقدّم الشخص قبل الحالة، ونتجنب الكلمات الجارحة أو القديمة.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>تجنّب</th><th>استخدم</th></tr></thead>
+        <tbody>
+          <tr><td class="no">منغولي</td><td class="yes">طفل لديه متلازمة داون</td></tr>
+          <tr><td class="no">معاق، متخلف عقليًا</td><td class="yes">شخص من ذوي الإعاقة الذهنية</td></tr>
+          <tr><td class="no">يعاني من التوحد</td><td class="yes">لديه توحد، أو طفل من ذوي التوحد</td></tr>
+          <tr><td class="no">طبيعي (مقابل المعاق)</td><td class="yes">من غير ذوي الإعاقة</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- MIND -->
+<section class="view" data-view="mind" hidden>
+  <div class="sec-head">
+    <p class="eyebrow">التصور الذهني والاستجابة المحورية</p>
+    <h1>أرى الصورة في ذهني</h1>
+    <p class="lead">التصور الذهني يعني أن يكوّن الطفل صورة داخلية لما رآه أو سمعه ثم يستدعيها. ألعاب هذا القسم تدرّب الانتباه والذاكرة البصرية واللغة، ويطلب كل سؤال أن يصف الطفل ما تخيّله بالكلمات.</p>
+  </div>
+
+  <div class="panel">
+    <h3>تذكّر الصورة</h3>
+    <p class="sub">انظر إلى الأشكال جيدًا. ستختفي بعد ثوانٍ، ثم أجب عن السؤال من ذاكرتك.</p>
+    <div class="row" style="margin-bottom:12px">
+      <div class="seg" id="vmLevel" role="group" aria-label="المستوى"><button aria-pressed="true" data-v="3">٣ أشكال</button><button aria-pressed="false" data-v="4">٤ أشكال</button></div>
+      <div class="seg" id="vmTime" role="group" aria-label="مدة العرض"><button aria-pressed="false" data-v="3">3 ثوانٍ</button><button aria-pressed="true" data-v="5">5 ثوانٍ</button><button aria-pressed="false" data-v="8">8 ثوانٍ</button></div>
+    </div>
+    <div class="stage">
+      <div id="vmScene" style="width:100%;max-width:420px"></div>
+      <div class="bar" id="vmBar"><i></i></div>
+      <p class="turn" id="vmQ">اضغط «ابدأ» لترى الصورة</p>
+      <div class="opts" id="vmOpts"></div>
+      <p class="feedback" id="vmFb" aria-live="polite"></p>
+      <div class="row"><button class="btn" id="vmStart">ابدأ</button><button class="say" data-say-from="vmQ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9v6h4l5 4V5L8 9z"/></svg>اسمع السؤال</button></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="panel">
+      <h3>لغز الصورة</h3>
+      <p class="sub">اضغط قطعتين لتبديل مكانيهما حتى تكتمل الصورة.</p>
+      <div class="row" style="margin-bottom:12px">
+        <div class="seg" id="pzSize" role="group" aria-label="حجم اللغز"><button aria-pressed="true" data-v="2">٤ قطع</button><button aria-pressed="false" data-v="3">٩ قطع</button></div>
+        <button class="btn sm soft" id="pzNew">صورة أخرى</button>
+      </div>
+      <div class="stage">
+        <div class="puzzle" id="pz"></div>
+        <p class="feedback" id="pzFb" aria-live="polite"></p>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>أكمل النمط</h3>
+      <p class="sub">ما الشكل الذي يأتي بعد ذلك؟</p>
+      <div class="stage">
+        <div class="pattern" id="ptRow"></div>
+        <div class="opts" id="ptOpts"></div>
+        <p class="feedback" id="ptFb" aria-live="polite"></p>
+        <button class="btn sm soft" id="ptNext">نمط جديد</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>علاج الاستجابة المحورية (PRT)</h3>
+    <p class="sub">أسلوب تدخل طبيعي قائم على اللعب، طوّره روبرت ولين كوجل، يستهدف مهارات «محورية» إذا تحسنت تحسّن معها كثير من المهارات الأخرى: الدافعية، والمبادرة، والاستجابة لأكثر من مثير، وإدارة الذات.</p>
+    <div class="prt-steps">
+      <div><b>1. اختيار الطفل</b><p>يختار الطفل اللعبة أو النشاط، فترتفع دافعيته.</p></div>
+      <div><b>2. فرصة واضحة</b><p>أمسك اللعبة قرب وجهك، فينظر إليك ويطلبها.</p></div>
+      <div><b>3. كافئ المحاولة</b><p>أي محاولة معقولة (صوت، إشارة، جزء كلمة) تستحق المكافأة.</p></div>
+      <div><b>4. مكافأة طبيعية</b><p>المكافأة هي الشيء نفسه الذي طلبه، فورًا.</p></div>
+    </div>
+    <h3 style="margin-top:18px;font-size:1.1rem">تدرّب الآن مع طفلك</h3>
+    <div class="stage" style="margin-top:8px">
+      <p class="turn" id="prtQ">اختر مع طفلك لعبته المفضلة</p>
+      <div class="opts" id="prtToys"></div>
+      <div class="reward" id="prtReward" aria-hidden="true"></div>
+      <div class="row" id="prtActs" hidden>
+        <button class="btn soft" data-a="try">حاول (صوت أو إشارة)</button>
+        <button class="btn" data-a="said">قالها بالكلمة</button>
+        <button class="btn ghost" data-a="none">لم يستجب بعد</button>
+      </div>
+      <p class="feedback" id="prtFb" aria-live="polite"></p>
+      <p class="note" id="prtLog"></p>
+    </div>
+  </div>
+</section>
+
+<!-- TIME -->
+<section class="view" data-view="time" hidden>
+  <div class="sec-head">
+    <p class="eyebrow">الوقت وتنظيم اليوم</p>
+    <h1>يومي واضح أمامي</h1>
+    <p class="lead">الجداول المصوّرة والمؤقتات المرئية من الدعائم البصرية المثبتة علميًا. تساعد الطفل على فهم ما سيحدث، وعلى قبول التغيير حين يُعرض عليه بهدوء ووضوح.</p>
+  </div>
+
+  <div class="panel">
+    <div class="row" style="justify-content:space-between">
+      <h3>الآن ثم بعد ذلك</h3>
+      <div class="row"><button class="btn sm sun" id="chgBtn">تغيير في الخطة</button><button class="btn sm soft" id="newDay">يوم جديد</button></div>
+    </div>
+    <div class="nn" style="box-shadow:none;margin-top:10px"><div class="nn-cards" id="timeNN"></div></div>
+    <div class="change" id="chgBox" hidden style="margin-top:12px">
+      <p style="font-weight:700">ما النشاط الذي سيحل مكان النشاط التالي؟</p>
+      <div class="palette" id="chgPal" style="margin-top:8px"></div>
+      <p class="feedback good" id="chgMsg" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="panel">
+      <h3>جدول اليوم المصوّر</h3>
+      <p class="sub">رتّب الأنشطة وأضف وقتًا اختياريًا، ثم علّم ما أُنجز. يُحفظ الجدول في متصفحك.</p>
+      <div class="sched" id="sched"></div>
+      <p class="note" style="margin-top:12px">أضف نشاطًا:</p>
+      <div class="palette" id="pal" style="margin-top:6px"></div>
+    </div>
+    <div class="panel">
+      <h3>المؤقت المرئي</h3>
+      <p class="sub">القرص الملون يصغر مع مرور الوقت، فيرى الطفل كم بقي دون أن يقرأ الأرقام.</p>
+      <div class="timer-wrap">
+        <div class="seg" id="tmPre" role="group" aria-label="مدة المؤقت"><button aria-pressed="false" data-v="1">دقيقة</button><button aria-pressed="false" data-v="2">2</button><button aria-pressed="true" data-v="5">5</button><button aria-pressed="false" data-v="10">10</button><button aria-pressed="false" data-v="15">15</button></div>
+        <svg viewBox="0 0 220 220" id="tmSvg" aria-hidden="true"></svg>
+        <div class="timer-read" id="tmRead">5:00</div>
+        <div class="row"><button class="btn" id="tmGo">ابدأ</button><button class="btn soft" id="tmReset">إعادة</button></div>
+        <p class="feedback good" id="tmFb" aria-live="polite"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="panel">
+      <h3>اقرأ الساعة</h3>
+      <p class="sub">كم الساعة؟ اختر الوقت الصحيح.</p>
+      <div class="seg" id="ckLevel" role="group" aria-label="المستوى" style="margin-bottom:12px"><button aria-pressed="true" data-v="1">ساعة ونصف</button><button aria-pressed="false" data-v="2">مع الربع</button></div>
+      <div class="stage">
+        <svg viewBox="0 0 200 200" class="clock-face" id="ck" aria-hidden="true"></svg>
+        <div class="opts" id="ckOpts"></div>
+        <p class="feedback" id="ckFb" aria-live="polite"></p>
+        <button class="btn sm soft" id="ckNext">ساعة أخرى</button>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>ماذا يأتي أولًا؟</h3>
+      <p class="sub">رتّب الصور بحسب ما يحدث: أولًا، ثم، أخيرًا.</p>
+      <div class="stage">
+        <div class="seq" id="sq"></div>
+        <p class="feedback" id="sqFb" aria-live="polite"></p>
+        <button class="btn sm soft" id="sqNext">قصة أخرى</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EYES -->
+<section class="view" data-view="eyes" hidden>
+  <div class="sec-head">
+    <p class="eyebrow">التواصل البصري والتفاعل</p>
+    <h1>أنظر، أشارك، أتفاعل</h1>
+    <p class="lead">ألعاب لطيفة تشجع النظر نحو الوجه، ومتابعة نظرة الآخر (الانتباه المشترك)، وقراءة المشاعر، وتبادل الأدوار. شجّع ولا تُجبر: كثير من الأطفال ذوي التوحد يجدون النظر المباشر مزعجًا.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel">
+      <h3>لمعة العينين</h3>
+      <p class="sub">حين تلمع نجمة في عيني الصديق، اضغط على العينين.</p>
+      <div class="stage">
+        <div class="facebox" id="ewFace"><button class="eye-hit" id="ewHit" aria-label="العينان"></button></div>
+        <p class="turn" id="ewScore">0 من 5</p>
+        <p class="feedback" id="ewFb" aria-live="polite"></p>
+        <button class="btn" id="ewStart">ابدأ</button>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>إلى أين ينظر؟</h3>
+      <p class="sub">تابع عيني الصديق، واضغط على الشيء الذي ينظر إليه.</p>
+      <div class="stage">
+        <div class="gaze" id="gz"></div>
+        <p class="feedback" id="gzFb" aria-live="polite"></p>
+        <button class="btn sm soft" id="gzNext">مرة أخرى</button>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>بماذا يشعر؟</h3>
+      <p class="sub">انظر إلى الوجه: العينين والحاجبين والفم.</p>
+      <div class="stage">
+        <div class="facebox" id="emFace" style="width:min(220px,60vw)"></div>
+        <div class="opts" id="emOpts"></div>
+        <p class="feedback" id="emFb" aria-live="polite"></p>
+        <p class="note" id="emWhen"></p>
+        <button class="btn sm soft" id="emNext">وجه آخر</button>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>دوري ودورك</h3>
+      <p class="sub">يلعبها الطفل مع مرافقه: نضيف مكعبًا بالتناوب حتى نبني برجًا من 10 مكعبات.</p>
+      <div class="stage">
+        <p class="turn" id="twTurn">دور: الطفل</p>
+        <div class="tower" id="tw"></div>
+        <div class="row"><button class="btn" id="twKid">دوري أنا</button><button class="btn sun" id="twAdult">دورك أنت</button><button class="btn ghost sm" id="twReset">من جديد</button></div>
+        <p class="feedback" id="twFb" aria-live="polite"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ART -->
+<section class="view" data-view="art" hidden>
+  <div class="sec-head">
+    <p class="eyebrow">الرسم والتلوين والذاكرة</p>
+    <h1>يدي تتبع عيني</h1>
+    <p class="lead">الرسم على خطوط إرشادية والتلوين داخل المساحات يدرّبان التآزر البصري الحركي، وبطاقات الذاكرة تطيل مدة التركيز تدريجيًا.</p>
+  </div>
+  <div class="panel">
+    <h3>لوحة الرسم</h3>
+    <p class="sub">ارسم حرًا، أو اختر شكلًا منقطًا وارسم فوقه.</p>
+    <div class="row" style="margin-bottom:10px;justify-content:space-between">
+      <div class="colors" id="drColors" role="group" aria-label="الألوان"></div>
+      <div class="row">
+        <div class="seg" id="drSize" role="group" aria-label="سمك القلم"><button aria-pressed="false" data-v="4">رفيع</button><button aria-pressed="true" data-v="10">متوسط</button><button aria-pressed="false" data-v="22">عريض</button></div>
+        <button class="btn sm ghost" id="drErase" aria-pressed="false">ممحاة</button>
+        <button class="btn sm soft" id="drClear">مسح الكل</button>
+      </div>
+    </div>
+    <div class="row" style="margin-bottom:10px" id="drGuides" role="group" aria-label="الأشكال المنقطة">
+      <button class="chip" aria-pressed="true" data-g="none">رسم حر</button>
+      <button class="chip" aria-pressed="false" data-g="circle">دائرة</button>
+      <button class="chip" aria-pressed="false" data-g="square">مربع</button>
+      <button class="chip" aria-pressed="false" data-g="triangle">مثلث</button>
+      <button class="chip" aria-pressed="false" data-g="zigzag">خط متعرج</button>
+      <button class="chip" aria-pressed="false" data-g="wave">موجة</button>
+    </div>
+    <div class="canvas-box" id="drBox" style="aspect-ratio:16/10"><canvas id="drGuide"></canvas><canvas id="drCanvas"></canvas></div>
+  </div>
+  <div class="grid2">
+    <div class="panel">
+      <h3>صفحة التلوين</h3>
+      <p class="sub">اختر لونًا ثم اضغط على أي جزء لتلوينه.</p>
+      <div class="row" style="margin-bottom:10px;justify-content:space-between">
+        <div class="colors" id="clColors" role="group" aria-label="الألوان"></div>
+        <div class="seg" id="clPage" role="group" aria-label="الصفحة"><button aria-pressed="true" data-v="house">البيت</button><button aria-pressed="false" data-v="fish">السمكة</button></div>
+      </div>
+      <div class="stage" style="background:transparent;padding:0"><div id="clBox" style="width:100%;display:flex;justify-content:center"></div></div>
+      <button class="btn sm soft" id="clReset" style="margin-top:10px">ابدأ من جديد</button>
+    </div>
+    <div class="panel">
+      <h3>بطاقات الذاكرة</h3>
+      <p class="sub">اقلب بطاقتين وابحث عن الصورتين المتشابهتين.</p>
+      <div class="row" style="margin-bottom:10px;justify-content:space-between">
+        <div class="seg" id="mmLevel" role="group" aria-label="المستوى"><button aria-pressed="true" data-v="3">سهل</button><button aria-pressed="false" data-v="6">متوسط</button><button aria-pressed="false" data-v="8">أصعب</button></div>
+        <span class="note" id="mmMoves">المحاولات: 0</span>
+      </div>
+      <div class="stage"><div class="mem" id="mm"></div><p class="feedback" id="mmFb" aria-live="polite"></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- LETTERS -->
+<section class="view" data-view="letters" hidden>
+  <div class="sec-head">
+    <p class="eyebrow">الحروف والتهجئة والكتابة</p>
+    <h1>حرفًا حرفًا</h1>
+    <p class="lead">تعرّف على الحرف وأشكاله وصوته، ثم ركّب الكلمات، ثم اكتب بالتتبع. عند الخطأ يرى الطفل مكانه بالضبط فيصححه بنفسه.</p>
+  </div>
+  <div class="panel">
+    <h3>لوحة الحروف</h3>
+    <p class="sub">اضغط على أي حرف.</p>
+    <div class="grid2" style="align-items:start">
+      <div class="abc" id="abc" role="group" aria-label="الحروف الهجائية"></div>
+      <div class="letter-card" id="lCard"></div>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="panel">
+      <h3>ركّب الكلمة</h3>
+      <p class="sub">اضغط الحروف بالترتيب. اضغط على أي خانة لإرجاع حرفها.</p>
+      <div class="seg" id="spLevel" role="group" aria-label="المستوى" style="margin-bottom:12px"><button aria-pressed="true" data-v="1">كلمات قصيرة</button><button aria-pressed="false" data-v="2">كلمات أطول</button></div>
+      <div class="stage">
+        <div style="font-size:4rem;line-height:1.1" id="spEmo" aria-hidden="true"></div>
+        <button class="say" id="spSay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9v6h4l5 4V5L8 9z"/></svg>اسمع الكلمة</button>
+        <div class="slots" id="spSlots"></div>
+        <div class="tiles" id="spTiles"></div>
+        <div class="joined" id="spJoined" aria-live="polite"></div>
+        <p class="feedback" id="spFb" aria-live="polite"></p>
+        <div class="row"><button class="btn" id="spCheck">تحقق</button><button class="btn soft" id="spHint">تلميح</button><button class="btn ghost" id="spNext">كلمة أخرى</button></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>اكتب بالتتبع</h3>
+      <p class="sub">مرّر إصبعك فوق الحرف الباهت. اضغط «تحقق» لترى الأجزاء التي لم تكتمل.</p>
+      <div class="row" style="margin-bottom:12px">
+        <button class="btn sm soft" id="trPrev" aria-label="الحرف السابق">السابق</button>
+        <b id="trName" style="font-family:var(--f-display);font-size:1.2rem;min-width:5em;text-align:center"></b>
+        <button class="btn sm soft" id="trNext" aria-label="الحرف التالي">التالي</button>
+      </div>
+      <div class="stage">
+        <div class="trace-box" id="trBox"><canvas id="trGuide"></canvas><canvas id="trMark"></canvas><canvas id="trDraw"></canvas></div>
+        <p class="feedback" id="trFb" aria-live="polite"></p>
+        <div class="row"><button class="btn" id="trCheck">تحقق</button><button class="btn soft" id="trClear">امسح وحاول</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ASK -->
+<section class="view" data-view="ask" hidden>
+  <div class="sec-head">
+    <p class="eyebrow">اسأل الذكاء الاصطناعي</p>
+    <h1>مساعد رفيق</h1>
+    <p class="lead">اطرح سؤالك، أو اطلب فكرة نشاط مناسبة لطفلك، أو قصة اجتماعية مخصّصة تهيّئه لموقف جديد. الإجابات إرشادية ولا تغني عن الطبيب أو الأخصائي.</p>
+  </div>
+  <div class="ai-off" id="aiOff" hidden>هذا القسم يعمل عند فتح التطبيق داخل Claude مع السماح له باستخدام Claude. بقية الأقسام تعمل بشكل كامل.</div>
+  <div class="seg" id="aiTabs" role="tablist" aria-label="أقسام المساعد">
+    <button role="tab" aria-pressed="true" data-t="chat">اسأل</button>
+    <button role="tab" aria-pressed="false" data-t="idea">فكرة نشاط</button>
+    <button role="tab" aria-pressed="false" data-t="story">قصة اجتماعية</button>
+  </div>
+
+  <div class="panel" data-tab="chat">
+    <h3>اسأل</h3>
+    <p class="sub">مثلًا: كيف أهيّئ طفلي ذا التوحد لقصة الشعر؟</p>
+    <div class="row" id="chatSug" style="margin-bottom:12px">
+      <button class="chip" aria-pressed="false">كيف أتعامل مع نوبة غضب في السوق؟</button>
+      <button class="chip" aria-pressed="false">ما الفرق بين التوحد والإعاقة الذهنية؟</button>
+      <button class="chip" aria-pressed="false">كيف أنمّي الكلام لدى طفل لديه متلازمة داون؟</button>
+      <button class="chip" aria-pressed="false">طفلي يرفض تنظيف أسنانه، ماذا أفعل؟</button>
+    </div>
+    <div class="chat" id="chat" aria-live="polite"></div>
+    <div class="composer" style="margin-top:12px">
+      <label for="chatIn" class="note" hidden>سؤالك</label>
+      <textarea id="chatIn" rows="2" placeholder="اكتب سؤالك هنا"></textarea>
+      <button class="btn" id="chatSend">أرسل</button>
+      <button class="btn ghost" id="chatStop" hidden>توقف</button>
+    </div>
+  </div>
+
+  <div class="panel" data-tab="idea" hidden>
+    <h3>فكرة نشاط</h3>
+    <p class="sub">حدّد ما يناسب طفلك، وستحصل على نشاط بخطوات واضحة وطرق لتسهيله أو تصعيبه.</p>
+    <form class="form" id="ideaForm">
+      <label>العمر<select id="idAge"><option>3 إلى 5 سنوات</option><option selected>6 إلى 8 سنوات</option><option>9 إلى 12 سنة</option><option>13 سنة فأكثر</option></select></label>
+      <label>الحالة<select id="idCond"><option>اضطراب طيف التوحد</option><option>متلازمة داون</option><option>متلازمة إكس الهش</option><option>إعاقة ذهنية بسيطة</option><option>إعاقة ذهنية متوسطة</option><option>تأخر نمائي عام</option></select></label>
+      <label>المهارة المستهدفة<select id="idSkill"><option>التواصل واللغة</option><option>الانتباه والتركيز</option><option>التواصل البصري والتفاعل الاجتماعي</option><option>المهارات الحركية الدقيقة</option><option>فهم الوقت وتنظيم الروتين</option><option>مهارات الحياة اليومية</option><option>تنظيم المشاعر</option><option>القراءة والكتابة</option></select></label>
+      <label>المكان<select id="idPlace"><option>المنزل</option><option>المدرسة أو المركز</option><option>خارج المنزل</option></select></label>
+      <label class="full">أدوات متوفرة أو اهتمامات الطفل (اختياري)<input type="text" id="idTools" placeholder="مثلًا: يحب السيارات، لدينا مكعبات وأقلام تلوين"></label>
+      <div class="full row"><button class="btn" type="submit" id="idGo">اقترح نشاطًا</button><button class="btn ghost" type="button" id="idStop" hidden>توقف</button></div>
+    </form>
+    <div class="md" id="idOut" style="margin-top:14px" aria-live="polite"></div>
+  </div>
+
+  <div class="panel" data-tab="story" hidden>
+    <h3>قصة اجتماعية</h3>
+    <p class="sub">قصة قصيرة بصوت الطفل، تصف الموقف بهدوء وتوضح ما يمكنه فعله، على طريقة كارول غراي.</p>
+    <form class="form" id="stForm">
+      <label>اسم الطفل<input type="text" id="stName" placeholder="مثلًا: سلمان" maxlength="30"></label>
+      <label>ولد أم بنت؟<select id="stG"><option value="boy">ولد</option><option value="girl">بنت</option></select></label>
+      <label>العمر<select id="stAge"><option>4 إلى 6 سنوات</option><option selected>7 إلى 9 سنوات</option><option>10 سنوات فأكثر</option></select></label>
+      <label>الموقف<select id="stSit"><option>زيارة طبيب الأسنان</option><option>قص الشعر عند الحلاق</option><option>أول يوم في المدرسة</option><option>انتظار دوري في الطابور</option><option>ركوب الطائرة</option><option>حفلة عيد ميلاد فيها أصوات عالية</option><option>تغيّر الخطة فجأة</option><option>الذهاب إلى السوق المزدحم</option><option>غسل اليدين بعد الحمّام</option><option value="custom">موقف آخر</option></select></label>
+      <label class="full" id="stCustomL" hidden>صف الموقف<input type="text" id="stCustom" placeholder="مثلًا: زيارة جدتي في المستشفى"></label>
+      <div class="full row"><button class="btn" type="submit" id="stGo">أنشئ القصة</button><span class="note thinking" id="stWait" hidden>أكتب القصة</span></div>
+    </form>
+    <p class="feedback try" id="stErr" aria-live="polite"></p>
+    <div id="stOut" style="margin-top:8px"></div>
+  </div>
+</section>
+
+<!-- SOURCES -->
+<section class="view" data-view="sources" hidden>
+  <div class="sec-head">
+    <p class="eyebrow">المصادر</p>
+    <h1>من أين جاءت المعلومات؟</h1>
+    <p class="lead">اعتمدنا على جهات صحية وعلمية رسمية. الأنشطة مبنية على ممارسات قائمة على الدليل مثل الدعائم البصرية والقصص الاجتماعية والتدخلات الطبيعية القائمة على اللعب.</p>
+  </div>
+  <ul class="src-list">
+    <li><b><a href="https://www.who.int/news-room/fact-sheets/detail/autism-spectrum-disorders" target="_blank" rel="noopener">منظمة الصحة العالمية: التوحد</a></b><span>الانتشار العالمي والخصائص وأساليب الدعم</span></li>
+    <li><b><a href="https://www.cdc.gov/autism/data-research/index.html" target="_blank" rel="noopener">CDC: بيانات التوحد</a></b><span>مراكز مكافحة الأمراض والوقاية منها الأمريكية</span></li>
+    <li><b><a href="https://www.cdc.gov/birth-defects/data-research/facts-stats/down-syndrome.html" target="_blank" rel="noopener">CDC: متلازمة داون</a></b><span>الانتشار والحقائق الأساسية</span></li>
+    <li><b><a href="https://ndss.org/about" target="_blank" rel="noopener">الجمعية الوطنية لمتلازمة داون (NDSS)</a></b><span>أنواع المتلازمة والحالات الصحية المرتبطة</span></li>
+    <li><b><a href="https://www.aaidd.org/intellectual-disability/definition" target="_blank" rel="noopener">AAIDD: تعريف الإعاقة الذهنية</a></b><span>الجمعية الأمريكية للإعاقات الذهنية والنمائية</span></li>
+    <li><b><a href="https://www.nichd.nih.gov/health/topics/fragilex" target="_blank" rel="noopener">NICHD: متلازمة إكس الهش</a></b><span>المعاهد الوطنية للصحة الأمريكية</span></li>
+    <li><b><a href="https://medlineplus.gov/genetics/condition/williams-syndrome/" target="_blank" rel="noopener">MedlinePlus: متلازمة ويليامز</a></b><span>المكتبة الوطنية للطب</span></li>
+    <li><b><a href="https://medlineplus.gov/genetics/condition/prader-willi-syndrome/" target="_blank" rel="noopener">MedlinePlus: متلازمة برادر ويلي</a></b><span>المكتبة الوطنية للطب</span></li>
+    <li><b><a href="https://medlineplus.gov/genetics/condition/angelman-syndrome/" target="_blank" rel="noopener">MedlinePlus: متلازمة أنجلمان</a></b><span>المكتبة الوطنية للطب</span></li>
+    <li><b><a href="https://medlineplus.gov/genetics/condition/rett-syndrome/" target="_blank" rel="noopener">MedlinePlus: متلازمة ريت</a></b><span>المكتبة الوطنية للطب</span></li>
+    <li><b><a href="https://www.cdc.gov/fasd/about/index.html" target="_blank" rel="noopener">CDC: اضطرابات طيف الكحول الجنيني</a></b><span>الأسباب والعلامات والوقاية</span></li>
+    <li><b><a href="https://ncaep.fpg.unc.edu/" target="_blank" rel="noopener">NCAEP: الممارسات القائمة على الدليل</a></b><span>الدعائم البصرية، القصص الاجتماعية، التدخل الطبيعي</span></li>
+    <li><b><a href="https://en.wikipedia.org/wiki/Pivotal_response_treatment" target="_blank" rel="noopener">علاج الاستجابة المحورية (PRT)</a></b><span>نظرة عامة على المبادئ والتاريخ</span></li>
+    <li><b><a href="https://carolgraysocialstories.com/" target="_blank" rel="noopener">كارول غراي: القصص الاجتماعية</a></b><span>منهجية كتابة القصص الاجتماعية</span></li>
+    <li><b><a href="https://www.who.int/teams/mental-health-and-substance-use/treatment-care/who-caregivers-skills-training-for-families-of-children-with-developmental-delays-and-disorders" target="_blank" rel="noopener">برنامج WHO لتدريب مقدّمي الرعاية</a></b><span>لأسر الأطفال ذوي التأخر والاضطرابات النمائية</span></li>
+    <li><b><a href="https://apd.gov.sa" target="_blank" rel="noopener">هيئة رعاية الأشخاص ذوي الإعاقة</a></b><span>الجهة الحكومية المختصة في المملكة العربية السعودية</span></li>
+  </ul>
+  <p class="note">المحتوى توعوي وتعليمي ولا يغني عن التشخيص والمتابعة لدى المختصين.</p>
+</section>
+
+</main>
+<footer><div class="wrap">رفيق الخطوات · محتوى توعوي من مصادر موثوقة · لا يغني عن استشارة الطبيب أو الأخصائي</div></footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+document.documentElement.lang='ar';document.documentElement.dir='rtl';
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const rnd=n=>Math.floor(Math.random()*n);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=rnd(i+1);[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=(a,n)=>shuffle(a).slice(0,n);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function load(k,d){try{const v=localStorage.getItem('rafeeq.'+k);return v==null?d:JSON.parse(v)}catch(e){return d}}
+function save(k,v){try{localStorage.setItem('rafeeq.'+k,JSON.stringify(v))}catch(e){}}
+
+/* speech + sound */
+const canSpeak=('speechSynthesis' in window)&&typeof SpeechSynthesisUtterance!=='undefined';
+if(!canSpeak) document.getElementById('app').classList.add('no-speech');
+let soundOn=load('sound',true);
+function speak(t){if(!canSpeak||!soundOn)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='ar-SA';u.rate=.85;const v=speechSynthesis.getVoices().find(v=>v.lang&&v.lang.toLowerCase().startsWith('ar'));if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}}
+let ac=null;
+function tone(seq){if(!soundOn)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();const t0=ac.currentTime;seq.forEach((f,i)=>{const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=f;const s=t0+i*.14;g.gain.setValueAtTime(.0001,s);g.gain.exponentialRampToValueAtTime(.18,s+.02);g.gain.exponentialRampToValueAtTime(.0001,s+.4);o.connect(g).connect(ac.destination);o.start(s);o.stop(s+.45)})}catch(e){}}
+const yay=()=>tone([523,659,784]), hmm=()=>tone([330,294]);
+const soundBtn=$('#soundBtn');
+function paintSound(){soundBtn.setAttribute('aria-pressed',soundOn);$('#waves').style.opacity=soundOn?1:.15}
+paintSound();
+soundBtn.onclick=()=>{soundOn=!soundOn;save('sound',soundOn);paintSound();if(!soundOn&&canSpeak)try{speechSynthesis.cancel()}catch(e){}};
+document.addEventListener('click',e=>{const b=e.target.closest('[data-say-from]');if(b)speak($('#'+b.dataset.sayFrom).textContent)});
+
+/* stars */
+let stars=load('stars',0);
+const starN=$('#starN'),starBox=$('#stars');starN.textContent=stars;
+function addStar(n=1){stars+=n;save('stars',stars);starN.textContent=stars;starBox.classList.remove('pop');void starBox.offsetWidth;starBox.classList.add('pop')}
+function fb(el,ok,msg){el.className='feedback '+(ok?'good':'try');el.textContent=msg;if(ok)yay();else hmm()}
+const PRAISE=['أحسنت!','رائع!','ممتاز، استمر!','عمل جميل!','أنت بطل!'];
+const TRY=['حاول مرة أخرى','قريب جدًا، جرّب ثانية','لا بأس، لنحاول معًا'];
+const praise=()=>PRAISE[rnd(PRAISE.length)], tryMsg=()=>TRY[rnd(TRY.length)];
+
+function seg(id,cb){const g=$('#'+id);g.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$$('button',g).forEach(x=>x.setAttribute('aria-pressed',x===b));cb&&cb(b.dataset.v,b)});return()=>$('button[aria-pressed="true"]',g).dataset.v}
+
+/* ---------- router ---------- */
+const routes=['home','guide','care','mind','time','eyes','art','letters','ask','sources'];
+const inited={};const inits={};
+function show(){let r=location.hash.slice(1);if(!routes.includes(r))r='home';
+  $$('.view').forEach(v=>v.hidden=v.dataset.view!==r);
+  $$('.nav a').forEach(a=>{const on=a.getAttribute('href')==='#'+r;on?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current');if(on)a.scrollIntoView({block:'nearest',inline:'center'})});
+  if(!inited[r]){inited[r]=1;inits[r]&&inits[r]()}
+  if(r==='home'||r==='time')renderNN();
+}
+window.addEventListener('hashchange',()=>{show();window.scrollTo(0,0)});
+
+/* ---------- GUIDE ---------- */
+const CONDS=[
+ {k:'dev',b:'ت',c:'c-teal',n:'اضطراب طيف التوحد',tag:'اضطراب نمائي عصبي',
+  about:'مجموعة متنوعة من حالات نمو الدماغ، تتسم بصعوبات في التفاعل الاجتماعي والتواصل، وأنماط سلوك ونشاط غير مألوفة. تقدّر منظمة الصحة العالمية أن نحو 1 من كل 127 شخصًا حول العالم لديه توحد (2021). تظهر العلامات في الطفولة المبكرة، وقد يتأخر التشخيص.',
+  signs:['صعوبة في بدء الحديث أو تبادله، أو تأخر في اللغة','قلة الاستجابة للاسم أو قلة مشاركة الاهتمام بالإشارة','حركات أو كلمات متكررة، وتمسك قوي بالروتين','صعوبة الانتقال بين الأنشطة','حساسية زائدة أو ناقصة للأصوات والأضواء والملمس'],
+  str:['الانتباه للتفاصيل','ذاكرة بصرية قوية لدى كثيرين','الالتزام بالقواعد والروتين','اهتمامات عميقة يمكن البناء عليها'],
+  how:['استخدم لغة مباشرة وحرفية، وتجنب التلميح والسخرية','قدّم دعائم بصرية: جدول مصوّر ولوحة «الآن ثم بعد ذلك»','هيّئه مسبقًا لأي تغيير أو مكان جديد بقصة اجتماعية','وفّر ركنًا هادئًا، واحترم حساسيته الحسية','ابدأ من اهتماماته لبناء التواصل، ولا تجبره على النظر في العينين'],
+  src:[['منظمة الصحة العالمية','https://www.who.int/news-room/fact-sheets/detail/autism-spectrum-disorders'],['CDC','https://www.cdc.gov/autism/data-research/index.html']]},
+ {k:'gen',b:'21',c:'c-sun',n:'متلازمة داون',tag:'نسخة إضافية من الكروموسوم 21',
+  about:'حالة وراثية تنتج عن نسخة إضافية كاملة أو جزئية من الكروموسوم 21. تولد نحو 1 من كل 640 طفلًا في الولايات المتحدة بحسب CDC. لها ثلاثة أنواع: التثلث الصبغي الكامل وهو الأكثر شيوعًا (نحو 95%)، والانتقالية، والفسيفسائية.',
+  signs:['ضعف في توتر العضلات منذ الولادة','ملامح وجه مميزة وقِصر في القامة','تأخر في الكلام والمهارات الحركية','قد تصاحبها عيوب قلبية خلقية لدى نحو نصف الأطفال، ومشكلات في السمع والنظر والغدة الدرقية'],
+  str:['اجتماعيون ودودون في الغالب','التعلم بالمشاهدة والتقليد','الذاكرة البصرية أقوى من السمعية'],
+  how:['علّم بالصور والإشارات والنمذجة','قسّم المهارة إلى خطوات صغيرة وكرّرها','ابدأ العلاج الطبيعي وعلاج النطق مبكرًا','تابع فحوص القلب والسمع والنظر والغدة الدرقية بانتظام','درّبه على الاستقلالية في المهام اليومية'],
+  src:[['CDC','https://www.cdc.gov/birth-defects/data-research/facts-stats/down-syndrome.html'],['NDSS','https://ndss.org/about']]},
+ {k:'gen',b:'X',c:'c-coral',n:'متلازمة إكس الهش',tag:'تغيّر في جين FMR1',
+  about:'أكثر الأشكال الموروثة شيوعًا للإعاقة الذهنية والنمائية، وتنتج عن تغيّر في جين FMR1 على الكروموسوم X يقلل إنتاج بروتين مهم لنمو الدماغ. تظهر عادة بصورة أشد لدى الذكور.',
+  signs:['تأخر في الكلام واللغة','قلق اجتماعي وتجنب النظر المباشر','فرط حركة وتشتت انتباه','حساسية حسية ورفرفة اليدين','ملامح جسدية مميزة كالوجه الطويل والأذنين البارزتين'],
+  str:['ذاكرة جيدة للمعلومات المحسوسة','حس فكاهة وتقليد جيد','التعلم من النماذج المرئية'],
+  how:['قلّل المثيرات الحسية والضجيج','حيّه دون أن تطلب منه النظر إليك','اجلس بجانبه بدل مواجهته مباشرة','استخدم الروتين والنمذجة','العلاج اللغوي والوظيفي والسلوكي من أهم أشكال الدعم'],
+  src:[['NICHD','https://www.nichd.nih.gov/health/topics/fragilex']]},
+ {k:'gen',b:'7',c:'c-leaf',n:'متلازمة ويليامز',tag:'حذف جزء من الكروموسوم 7',
+  about:'حالة وراثية نادرة تنتج عن فقدان جزء صغير من الكروموسوم 7. تتميز بشخصية اجتماعية جدًا مع صعوبات في المهارات البصرية المكانية، وكثيرًا ما تصاحبها مشكلات في القلب والأوعية.',
+  signs:['ودّ واجتماعية زائدة حتى مع الغرباء','صعوبة في الرسم وتركيب الأشكال','حساسية للأصوات العالية','تضيق في الشريان الأبهر لدى كثيرين'],
+  str:['لغة تعبيرية جيدة نسبيًا','حب الموسيقى والإيقاع','التعاطف والاهتمام بالآخرين'],
+  how:['استخدم الموسيقى والأغاني في التعلم','علّمه حدود الأمان مع الغرباء بوضوح','درّب المهارات البصرية المكانية بالألغاز والتركيب','تابع القلب وضغط الدم'],
+  src:[['MedlinePlus','https://medlineplus.gov/genetics/condition/williams-syndrome/']]},
+ {k:'gen',b:'15',c:'c-plum',n:'متلازمة برادر ويلي',tag:'الكروموسوم 15 (من جهة الأب)',
+  about:'حالة وراثية مرتبطة بالكروموسوم 15. تبدأ بضعف شديد في العضلات وصعوبة رضاعة، ثم يظهر في الطفولة شعور دائم بالجوع قد يؤدي إلى السمنة إن لم يُضبط الغذاء.',
+  signs:['ضعف العضلات وصعوبة الرضاعة في البداية','شعور مستمر بالجوع لاحقًا','تأخر نمائي وصعوبات تعلم','نوبات غضب وصعوبة تقبّل التغيير'],
+  str:['مهارة لافتة في تركيب الألغاز لدى كثيرين','ذاكرة جيدة طويلة المدى'],
+  how:['بيئة غذائية منظمة بإشراف الطبيب وأخصائي التغذية','روتين متوقع وتهيئة واضحة لأي تغيير','نشاط بدني يومي ممتع','قواعد ثابتة ومتفق عليها في الأسرة'],
+  src:[['MedlinePlus','https://medlineplus.gov/genetics/condition/prader-willi-syndrome/']]},
+ {k:'gen',b:'15',c:'c-teal',n:'متلازمة أنجلمان',tag:'جين UBE3A (من جهة الأم)',
+  about:'حالة وراثية عصبية تؤثر في الجهاز العصبي، ترتبط بجين UBE3A على الكروموسوم 15. يظهر فيها تأخر نمائي شديد وكلام محدود جدًا، مع شخصية مبتهجة وضحك متكرر.',
+  signs:['تأخر نمائي شديد','كلام قليل جدًا أو منعدم','صعوبات في التوازن والمشي','نوبات صرع لدى كثيرين','ابتسام وضحك متكرر وحماس'],
+  str:['الفهم أعلى من القدرة على الكلام','حب الماء والتفاعل الاجتماعي'],
+  how:['استخدم التواصل البديل والمعزز: صور، لوحات، أجهزة ناطقة','علاج طبيعي ووظيفي منتظم','متابعة الصرع مع طبيب الأعصاب','افترض أنه يفهم أكثر مما يستطيع قوله'],
+  src:[['MedlinePlus','https://medlineplus.gov/genetics/condition/angelman-syndrome/']]},
+ {k:'gen',b:'R',c:'c-coral',n:'متلازمة ريت',tag:'جين MECP2، غالبًا لدى الإناث',
+  about:'اضطراب عصبي نمائي يصيب الإناث غالبًا. ينمو الطفل بشكل طبيعي في الأشهر الأولى، ثم يفقد بين 6 و18 شهرًا بعض المهارات المكتسبة كالكلام واستخدام اليدين.',
+  signs:['تراجع في الكلام والمهارات بعد فترة نمو طبيعي','حركات يد متكررة كالفرك والتصفيق','صعوبات في المشي والتنفس','نوبات صرع لدى كثيرات'],
+  str:['التواصل بالعينين قوي لدى كثيرات','الاستمتاع بالموسيقى والتفاعل'],
+  how:['أجهزة التواصل بتتبع العين مفيدة جدًا','علاج طبيعي ووظيفي للحفاظ على الحركة','امنحها وقتًا أطول للاستجابة','خاطبها بلغة تناسب عمرها'],
+  src:[['MedlinePlus','https://medlineplus.gov/genetics/condition/rett-syndrome/']]},
+ {k:'dev',b:'F',c:'c-sun',n:'اضطرابات طيف الكحول الجنيني',tag:'يمكن الوقاية منها بالكامل',
+  about:'مجموعة حالات تحدث لمن تعرّض للكحول قبل الولادة. تسبب صعوبات تعلم وانتباه وسلوك تستمر مدى الحياة، ويمكن الوقاية منها تمامًا بتجنب الكحول طوال الحمل.',
+  signs:['صعوبات في الذاكرة والانتباه','صعوبة في الرياضيات والتفكير المجرد','اندفاعية وصعوبة في فهم العواقب','ملامح وجه مميزة لدى بعضهم'],
+  str:['يتحسن الأداء كثيرًا مع البيئة المنظمة والدعم المبكر'],
+  how:['تعليمات قصيرة متكررة مع تذكير بصري','روتين ثابت وتوقعات واضحة','ربط السلوك بنتيجته فورًا','التدخل المبكر يحسن النتائج'],
+  src:[['CDC','https://www.cdc.gov/fasd/about/index.html']]}
+];
+function li(a){return '<ul>'+a.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>'}
+inits.guide=()=>{
+  const g=$('#condGrid');
+  g.innerHTML=CONDS.map(c=>`<article class="panel cond" data-k="${c.k}">
+    <div class="cond-head"><span class="cond-badge ${c.c}">${esc(c.b)}</span><div><h3>${esc(c.n)}</h3><span class="tag">${esc(c.tag)}</span></div></div>
+    <p>${esc(c.about)}</p>
+    <details><summary>العلامات ونقاط القوة وطريقة التعامل</summary>
+      <h4>علامات شائعة</h4>${li(c.signs)}
+      <h4>نقاط قوة يمكن البناء عليها</h4>${li(c.str)}
+      <h4>كيف أتعامل معه</h4>${li(c.how)}
+    </details>
+    <p class="src">المصدر: ${c.src.map(s=>`<a href="${s[1]}" target="_blank" rel="noopener">${esc(s[0])}</a>`).join('، ')}</p>
+  </article>`).join('');
+  $('#guideFilter').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$$('#guideFilter button').forEach(x=>x.setAttribute('aria-pressed',x===b));const f=b.dataset.f;$$('.cond',g).forEach(c=>c.hidden=f!=='all'&&c.dataset.k!==f)});
+};
+
+/* ---------- shapes ---------- */
+const SHAPES={circle:['دائرة','الدائرة'],square:['مربع','المربع'],triangle:['مثلث','المثلث'],star:['نجمة','النجمة'],heart:['قلب','القلب']};
+const COLORS={red:['أحمر','#E25B4B'],blue:['أزرق','#3A7BD5'],green:['أخضر','#3FA060'],yellow:['أصفر','#F2B33D'],purple:['بنفسجي','#8A5CC7']};
+function shapeSVG(t,cx,cy,r,fill){
+  if(t==='circle')return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${fill}"/>`;
+  if(t==='square')return `<rect x="${cx-r*.85}" y="${cy-r*.85}" width="${r*1.7}" height="${r*1.7}" rx="7" fill="${fill}"/>`;
+  if(t==='triangle')return `<polygon points="${cx},${cy-r} ${cx+r*.98},${cy+r*.78} ${cx-r*.98},${cy+r*.78}" fill="${fill}" stroke-linejoin="round"/>`;
+  if(t==='star'){const p=[];for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,rr=i%2?r*.45:r;p.push((cx+rr*Math.cos(a)).toFixed(1)+','+(cy+rr*Math.sin(a)).toFixed(1))}return `<polygon points="${p.join(' ')}" fill="${fill}"/>`}
+  const s=r/48;return `<path transform="translate(${cx-50*s} ${cy-44*s}) scale(${s})" d="M50 88C20 65 0 48 0 28 0 12 12 0 27 0c11 0 19 6 23 15 4-9 12-15 23-15 15 0 27 12 27 28 0 20-20 37-50 60z" fill="${fill}"/>`;
+}
+
+/* ---------- MIND ---------- */
+inits.mind=()=>{
+  /* visual memory */
+  const lvl=seg('vmLevel'),tm=seg('vmTime');
+  const scene=$('#vmScene'),bar=$('#vmBar i'),q=$('#vmQ'),opts=$('#vmOpts'),f=$('#vmFb'),start=$('#vmStart');
+  let items=[],timer=null;
+  function draw(){const n=items.length,w=400,gap=w/n;return `<svg viewBox="0 0 400 200" role="img" aria-label="أشكال ملونة" style="background:var(--surface);border-radius:14px;width:100%">${items.map((it,i)=>shapeSVG(it.s,gap*i+gap/2,100,n===4?40:48,COLORS[it.c][1])).join('')}</svg>`}
+  function round(){
+    clearInterval(timer);f.textContent='';opts.innerHTML='';
+    const n=+lvl();const ss=pick(Object.keys(SHAPES),n),cs=pick(Object.keys(COLORS),n);
+    items=ss.map((s,i)=>({s,c:cs[i]}));
+    scene.innerHTML=draw();q.textContent='انظر جيدًا وتذكّر';start.disabled=true;
+    const T=+tm()*1000,t0=Date.now();bar.style.width='100%';
+    timer=setInterval(()=>{const left=Math.max(0,1-(Date.now()-t0)/T);bar.style.width=left*100+'%';if(left<=0){clearInterval(timer);ask()}},50);
+  }
+  function ask(){
+    scene.innerHTML='<div class="cover">؟</div>';
+    const target=items[rnd(items.length)];
+    let qtext,choices,right;
+    if(Math.random()<.5){
+      qtext='ما لون '+SHAPES[target.s][1]+'؟';right=target.c;
+      choices=shuffle([target.c,...pick(Object.keys(COLORS).filter(c=>c!==target.c),2)]);
+      opts.innerHTML=choices.map(c=>`<button class="opt" data-v="${c}"><span class="swatch" style="background:${COLORS[c][1]}"></span>${COLORS[c][0]}</button>`).join('');
+    }else{
+      qtext='أي شكل كان لونه '+COLORS[target.c][0]+'؟';right=target.s;
+      choices=shuffle([target.s,...pick(Object.keys(SHAPES).filter(s=>s!==target.s),2)]);
+      opts.innerHTML=choices.map(s=>`<button class="opt" data-v="${s}"><svg width="30" height="30" viewBox="0 0 100 100">${shapeSVG(s,50,50,40,'var(--muted)')}</svg>${SHAPES[s][0]}</button>`).join('');
+    }
+    q.textContent=qtext;speak(qtext);
+    opts.onclick=e=>{const b=e.target.closest('.opt');if(!b||opts.dataset.done==='1')return;
+      if(b.dataset.v===right){b.classList.add('right');fb(f,true,praise()+' هذه هي الصورة مرة أخرى');addStar();opts.dataset.done='1';scene.innerHTML=draw();start.disabled=false;start.textContent='صورة جديدة'}
+      else{b.classList.add('wrong');fb(f,false,tryMsg()+'. تخيّل الصورة في ذهنك')}};
+    opts.dataset.done='0';
+  }
+  start.onclick=round;
+
+  /* puzzle */
+  const pzSize=seg('pzSize',()=>newPuzzle()),pz=$('#pz'),pzFb=$('#pzFb');
+  let pzScene=0,order=[],sel=-1,img='';
+  function paintScene(k){const c=document.createElement('canvas');c.width=c.height=360;const x=c.getContext('2d');
+    if(k===0){const g=x.createLinearGradient(0,0,0,250);g.addColorStop(0,'#8FD0F0');g.addColorStop(1,'#D8F1FB');x.fillStyle=g;x.fillRect(0,0,360,360);
+      x.fillStyle='#F6C343';x.beginPath();x.arc(290,70,38,0,7);x.fill();
+      x.fillStyle='#6DBA5E';x.fillRect(0,250,360,110);
+      x.fillStyle='#F0E3CC';x.fillRect(90,170,150,110);x.fillStyle='#D9614F';x.beginPath();x.moveTo(75,175);x.lineTo(165,100);x.lineTo(255,175);x.fill();
+      x.fillStyle='#7A4E2D';x.fillRect(148,215,36,65);x.fillStyle='#8FD0F0';x.fillRect(105,190,30,30);x.fillRect(196,190,30,30);
+      x.fillStyle='#7A4E2D';x.fillRect(290,190,16,80);x.fillStyle='#3F8F4E';x.beginPath();x.arc(298,175,40,0,7);x.fill();
+      x.fillStyle='#fff';[[60,60,20],[85,52,24],[110,62,18]].forEach(a=>{x.beginPath();x.arc(a[0],a[1],a[2],0,7);x.fill()});
+    }else if(k===1){const g=x.createLinearGradient(0,0,0,360);g.addColorStop(0,'#5BB6D6');g.addColorStop(1,'#1E6F99');x.fillStyle=g;x.fillRect(0,0,360,360);
+      x.fillStyle='#E9D29A';x.beginPath();x.moveTo(0,300);x.quadraticCurveTo(90,270,180,300);x.quadraticCurveTo(270,330,360,295);x.lineTo(360,360);x.lineTo(0,360);x.fill();
+      x.fillStyle='#F28C38';x.beginPath();x.ellipse(170,160,80,48,0,0,7);x.fill();x.beginPath();x.moveTo(240,160);x.lineTo(300,115);x.lineTo(300,205);x.fill();
+      x.fillStyle='#fff';x.beginPath();x.arc(125,148,12,0,7);x.fill();x.fillStyle='#222';x.beginPath();x.arc(122,148,6,0,7);x.fill();
+      x.strokeStyle='#fff';x.lineWidth=6;[[150,135],[175,135],[200,135]].forEach(p=>{x.beginPath();x.moveTo(p[0],p[1]-25);x.lineTo(p[0],p[1]+50);x.stroke()});
+      x.fillStyle='#3FA060';x.beginPath();x.moveTo(50,310);x.quadraticCurveTo(25,250,55,200);x.quadraticCurveTo(80,250,62,310);x.fill();
+      x.fillStyle='rgba(255,255,255,.8)';[[90,90,10],[70,60,7],[85,30,5]].forEach(a=>{x.beginPath();x.arc(a[0],a[1],a[2],0,7);x.fill()});
+      x.fillStyle='#E25B4B';x.beginPath();for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,r=i%2?12:28;x.lineTo(300+r*Math.cos(a),320+r*Math.sin(a))}x.fill();
+    }else{x.fillStyle='#FFF4D6';x.fillRect(0,0,360,360);
+      [['#E25B4B',110,150],['#3A7BD5',180,120],['#3FA060',250,150]].forEach(b=>{x.strokeStyle='#666';x.lineWidth=2;x.beginPath();x.moveTo(b[1],b[2]+50);x.quadraticCurveTo(b[1]+10,b[2]+120,180,320);x.stroke();x.fillStyle=b[0];x.beginPath();x.ellipse(b[1],b[2],36,46,0,0,7);x.fill();x.fillStyle='rgba(255,255,255,.45)';x.beginPath();x.ellipse(b[1]-12,b[2]-16,8,13,-.5,0,7);x.fill()});
+      x.fillStyle='#F2B33D';x.fillRect(150,300,60,40);x.fillStyle='#D9614F';x.fillRect(150,312,60,8);
+    }
+    return c.toDataURL('image/png')}
+  function newPuzzle(next){if(next)pzScene=(pzScene+1)%3;img=paintScene(pzScene);const n=+pzSize();
+    do{order=shuffle([...Array(n*n).keys()])}while(order.every((v,i)=>v===i));sel=-1;pzFb.textContent='';renderPz()}
+  function renderPz(){const n=+pzSize();pz.style.gridTemplateColumns=`repeat(${n},1fr)`;pz.classList.toggle('done',order.every((v,i)=>v===i));
+    pz.innerHTML=order.map((p,i)=>{const r=Math.floor(p/n),c=p%n;return `<button data-i="${i}" aria-label="قطعة ${i+1}" class="${i===sel?'sel':''}" style="background-image:url(${img});background-size:${n*100}% ${n*100}%;background-position:${n>1?c/(n-1)*100:0}% ${n>1?r/(n-1)*100:0}%"></button>`}).join('')}
+  pz.onclick=e=>{const b=e.target.closest('button');if(!b||order.every((v,i)=>v===i))return;const i=+b.dataset.i;
+    if(sel<0){sel=i}else if(sel===i){sel=-1}else{[order[sel],order[i]]=[order[i],order[sel]];sel=-1;tone([440]);if(order.every((v,k)=>v===k)){fb(pzFb,true,praise()+' اكتملت الصورة');addStar()}}renderPz()};
+  $('#pzNew').onclick=()=>newPuzzle(true);newPuzzle();
+
+  /* pattern */
+  const ptRow=$('#ptRow'),ptOpts=$('#ptOpts'),ptFb=$('#ptFb');
+  function newPattern(){ptFb.textContent='';const len=Math.random()<.6?2:3;
+    const unit=[];const ss=pick(Object.keys(SHAPES),len),cs=pick(Object.keys(COLORS),len);for(let i=0;i<len;i++)unit.push({s:ss[i],c:cs[i]});
+    const total=len===2?6:7;const seqArr=[];for(let i=0;i<total;i++)seqArr.push(unit[i%len]);const ans=seqArr[total-1];
+    const cell=it=>`<svg width="44" height="44" viewBox="0 0 100 100">${shapeSVG(it.s,50,50,40,COLORS[it.c][1])}</svg>`;
+    ptRow.innerHTML=seqArr.slice(0,total-1).map(it=>`<div class="cell">${cell(it)}</div>`).join('')+'<div class="cell q">؟</div>';
+    const others=unit.filter(u=>u!==ans);const extra={s:pick(Object.keys(SHAPES).filter(s=>s!==ans.s),1)[0],c:ans.c};
+    const ch=shuffle([ans,others[0],extra]);
+    ptOpts.innerHTML=ch.map((it,i)=>`<button class="opt" data-i="${i}" aria-label="${SHAPES[it.s][0]} ${COLORS[it.c][0]}">${cell(it)}</button>`).join('');
+    ptOpts.onclick=e=>{const b=e.target.closest('.opt');if(!b)return;const it=ch[+b.dataset.i];
+      if(it===ans){b.classList.add('right');$('.cell.q',ptRow).innerHTML=cell(ans);fb(ptFb,true,praise());addStar();ptOpts.onclick=null}
+      else{b.classList.add('wrong');fb(ptFb,false,tryMsg()+'. قل الأشكال بصوت عالٍ بالترتيب')}}}
+  $('#ptNext').onclick=newPattern;newPattern();
+
+  /* PRT */
+  const TOYS=[['⚽','الكرة','كرة'],['🚗','السيارة','سيارة'],['🧱','المكعبات','مكعب'],['🎈','البالون','بالون'],['🫧','الفقاعات','فقاعات'],['🍪','البسكويت','بسكويت']];
+  const toysEl=$('#prtToys'),acts=$('#prtActs'),rw=$('#prtReward'),pq=$('#prtQ'),pf=$('#prtFb'),plog=$('#prtLog');
+  let toy=null,tries=0,saids=0;
+  toysEl.innerHTML=TOYS.map((t,i)=>`<button class="toy" data-i="${i}" aria-pressed="false" aria-label="${t[1]}">${t[0]}</button>`).join('');
+  toysEl.onclick=e=>{const b=e.target.closest('.toy');if(!b)return;$$('.toy',toysEl).forEach(x=>x.setAttribute('aria-pressed',x===b));toy=TOYS[+b.dataset.i];
+    pq.textContent='أمسك '+toy[1]+' قرب وجهك، وانتظر أن يطلبها طفلك. نموذج الكلمة: «'+toy[2]+'»';acts.hidden=false;rw.textContent='';pf.textContent='';speak(toy[2])};
+  acts.onclick=e=>{const b=e.target.closest('button');if(!b||!toy)return;const a=b.dataset.a;
+    if(a==='none'){pf.className='feedback try';pf.textContent='لا بأس. انتظر قليلًا، قل الكلمة مرة واحدة بوضوح، أو قدّم خيارين: «'+toy[2]+' أم '+TOYS.find(t=>t!==toy)[2]+'؟»';return}
+    a==='try'?tries++:saids++;rw.textContent=toy[0];rw.classList.remove('go');void rw.offsetWidth;rw.classList.add('go');yay();addStar();
+    pf.className='feedback good';pf.textContent=a==='try'?'أعطه '+toy[1]+' فورًا. كافأنا المحاولة، وهذا ما يزيد دافعيته للمحاولة مجددًا.':'رائع! المكافأة الطبيعية هي '+toy[1]+' نفسها. بعد قليل خذ دورك في اللعب ثم أعدها له.';
+    plog.textContent='محاولات اليوم: '+tries+' · كلمات كاملة: '+saids};
+};
+
+/* ---------- TIME ---------- */
+const ACTS=[['wake','استيقاظ','🌅'],['teeth','تنظيف الأسنان','🪥'],['dress','لبس الملابس','👕'],['bfast','فطور','🥣'],['school','المدرسة','🏫'],['play','لعب','🧸'],['lunch','غداء','🍽️'],['home','واجبات','✏️'],['pray','صلاة','🕌'],['park','حديقة','🌳'],['bath','استحمام','🛁'],['dinner','عشاء','🥪'],['story','قصة','📚'],['sleep','نوم','😴'],['tablet','وقت الشاشة','📱'],['car','مشوار بالسيارة','🚗']];
+const actBy=id=>ACTS.find(a=>a[0]===id)||ACTS[0];
+let sched=load('sched',null);
+if(!Array.isArray(sched))sched=[['wake','06:30'],['teeth',''],['bfast','07:00'],['school','07:30'],['lunch','13:30'],['play','15:00'],['bath','19:00'],['story','20:00'],['sleep','20:30']].map((a,i)=>({u:i+1,id:a[0],t:a[1],d:false}));
+const saveSched=()=>save('sched',sched);
+function nnHTML(){const pend=sched.filter(s=>!s.d);const now=pend[0],next=pend[1];
+  const card=(s,cls,lbl)=>s?`<div class="nn-card ${cls}"><small>${lbl}</small><span class="emo">${actBy(s.id)[2]}</span><span class="nm">${esc(actBy(s.id)[1])}</span></div>`:`<div class="nn-card ${cls}"><small>${lbl}</small><span class="emo">🌙</span><span class="nm">${cls==='now'?'انتهى اليوم':'لا شيء بعد'}</span></div>`;
+  return card(now,'now','الآن')+'<span class="nn-arrow" aria-hidden="true">←</span>'+card(next,'next','بعد ذلك')}
+function renderNN(){const h=nnHTML();const a=$('#homeNN');if(a)a.innerHTML=h;const b=$('#timeNN');if(b)b.innerHTML=h}
+inits.time=()=>{
+  const el=$('#sched');
+  const ic={up:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 15l6-6 6 6"/></svg>',dn:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>',ok:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12l5 5 9-10"/></svg>',x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>'};
+  function render(){const cur=sched.find(s=>!s.d);
+    el.innerHTML=sched.map((s,i)=>{const a=actBy(s.id);return `<div class="si${s.d?' done':''}${s===cur?' cur':''}" data-u="${s.u}">
+      <span class="emo" aria-hidden="true">${a[2]}</span><span class="nm">${esc(a[1])}</span>
+      <input type="time" id="t${s.u}" value="${esc(s.t||'')}" aria-label="وقت ${esc(a[1])}">
+      <span class="acts"><button class="mini" data-a="up" aria-label="أعلى" ${i===0?'disabled':''}>${ic.up}</button><button class="mini" data-a="dn" aria-label="أسفل" ${i===sched.length-1?'disabled':''}>${ic.dn}</button><button class="mini${s.d?' ok':''}" data-a="ok" aria-label="تم">${ic.ok}</button><button class="mini" data-a="x" aria-label="حذف">${ic.x}</button></span></div>`}).join('')||'<p class="note">الجدول فارغ. أضف أول نشاط من القائمة أدناه.</p>';
+    renderNN();saveSched()}
+  el.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const u=+b.closest('.si').dataset.u,i=sched.findIndex(s=>s.u===u);const a=b.dataset.a;
+    if(a==='up'&&i>0)[sched[i-1],sched[i]]=[sched[i],sched[i-1]];
+    if(a==='dn'&&i<sched.length-1)[sched[i+1],sched[i]]=[sched[i],sched[i+1]];
+    if(a==='ok'){sched[i].d=!sched[i].d;if(sched[i].d){yay();addStar();speak('أحسنت، انتهيت من '+actBy(sched[i].id)[1])}}
+    if(a==='x')sched.splice(i,1);render()});
+  el.addEventListener('change',e=>{if(e.target.type!=='time')return;const u=+e.target.closest('.si').dataset.u;const s=sched.find(x=>x.u===u);s.t=e.target.value;saveSched()});
+  const palHTML=ACTS.map(a=>`<button data-id="${a[0]}"><span aria-hidden="true">${a[2]}</span>${esc(a[1])}</button>`).join('');
+  $('#pal').innerHTML=palHTML;$('#chgPal').innerHTML=palHTML;
+  $('#pal').onclick=e=>{const b=e.target.closest('button');if(!b)return;sched.push({u:Date.now(),id:b.dataset.id,t:'',d:false});render()};
+  $('#newDay').onclick=()=>{sched.forEach(s=>s.d=false);render();$('#chgBox').hidden=true};
+  $('#chgBtn').onclick=()=>{const box=$('#chgBox');box.hidden=!box.hidden;$('#chgMsg').textContent=''};
+  $('#chgPal').onclick=e=>{const b=e.target.closest('button');if(!b)return;const pend=sched.filter(s=>!s.d);const tgt=pend[1]||pend[0];
+    if(!tgt){$('#chgMsg').textContent='لا يوجد نشاط تالٍ لتغييره.';return}
+    const from=actBy(tgt.id)[1],to=actBy(b.dataset.id)[1];tgt.id=b.dataset.id;render();
+    const m='تغيّرت الخطة: بدل «'+from+'» سيكون «'+to+'». لا بأس، أحيانًا تتغير الخطط، وأنا أستطيع أن أتأقلم.';$('#chgMsg').textContent=m;speak(m)};
+  render();
+
+  /* timer */
+  const svg=$('#tmSvg'),read=$('#tmRead'),go=$('#tmGo'),tf=$('#tmFb');let total=5*60,left=total,running=false,last=0,raf=0;
+  const pre=seg('tmPre',v=>{total=+v*60;reset()});
+  function wedge(f){const cx=110,cy=110,r=96;if(f>=.9999)return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="var(--coral)"/>`;if(f<=0)return '';const a=f*2*Math.PI;const x=cx-r*Math.sin(a),y=cy-r*Math.cos(a);return `<path d="M${cx} ${cy}L${cx} ${cy-r}A${r} ${r} 0 ${f>.5?1:0} 0 ${x.toFixed(2)} ${y.toFixed(2)}Z" fill="var(--coral)"/>`}
+  function paint(){let ticks='';for(let i=0;i<60;i++){const a=i*6*Math.PI/180,l=i%5?4:9;ticks+=`<line x1="${110+104*Math.sin(a)}" y1="${110-104*Math.cos(a)}" x2="${110+(104-l)*Math.sin(a)}" y2="${110-(104-l)*Math.cos(a)}" stroke="var(--muted)" stroke-width="${i%5?1:2}"/>`}
+    svg.innerHTML=`<circle cx="110" cy="110" r="108" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>${ticks}${wedge(left/total)}<circle cx="110" cy="110" r="10" fill="var(--ink)"/>`;
+    const m=Math.floor(Math.ceil(left)/60),s=Math.ceil(left)%60;read.textContent=m+':'+String(s).padStart(2,'0')}
+  function loop(t){if(!running)return;left-= (t-last)/1000;last=t;if(left<=0){left=0;running=false;go.textContent='ابدأ';paint();tf.textContent='انتهى الوقت! ننتقل إلى النشاط التالي';tone([784,659,523,659,784]);speak('انتهى الوقت');return}paint();raf=requestAnimationFrame(loop)}
+  function reset(){running=false;cancelAnimationFrame(raf);left=total;go.textContent='ابدأ';tf.textContent='';paint()}
+  go.onclick=()=>{if(left<=0)reset();running=!running;go.textContent=running?'إيقاف مؤقت':'تابع';if(running){last=performance.now();tf.textContent='';raf=requestAnimationFrame(loop)}};
+  $('#tmReset').onclick=reset;paint();
+
+  /* clock */
+  const HRS=['الثانية عشرة','الواحدة','الثانية','الثالثة','الرابعة','الخامسة','السادسة','السابعة','الثامنة','التاسعة','العاشرة','الحادية عشرة'];
+  const ckLvl=seg('ckLevel',()=>newClock());const ck=$('#ck'),ckO=$('#ckOpts'),ckF=$('#ckFb');
+  const phrase=(h,m)=>m===0?'الساعة '+HRS[h%12]+' تمامًا':m===15?'الساعة '+HRS[h%12]+' والربع':m===30?'الساعة '+HRS[h%12]+' والنصف':'الساعة '+HRS[(h+1)%12]+' إلا ربعًا';
+  const dig=(h,m)=>h+':'+String(m).padStart(2,'0');
+  function clockSVG(h,m){let s=`<circle cx="100" cy="100" r="94" fill="var(--surface)" stroke="var(--teal)" stroke-width="6"/>`;
+    for(let i=1;i<=12;i++){const a=i*30*Math.PI/180;s+=`<text x="${100+74*Math.sin(a)}" y="${100-74*Math.cos(a)+7}" text-anchor="middle" font-size="19" font-weight="700" fill="var(--ink)" font-family="IBM Plex Sans Arabic,sans-serif">${i}</text>`}
+    const ha=((h%12)+m/60)*30,ma=m*6;
+    s+=`<line x1="100" y1="100" x2="100" y2="54" stroke="var(--ink)" stroke-width="7" stroke-linecap="round" transform="rotate(${ha} 100 100)"/>`;
+    s+=`<line x1="100" y1="100" x2="100" y2="30" stroke="var(--coral)" stroke-width="4" stroke-linecap="round" transform="rotate(${ma} 100 100)"/><circle cx="100" cy="100" r="6" fill="var(--ink)"/>`;return s}
+  function newClock(){ckF.textContent='';const mins=ckLvl()==='1'?[0,30]:[0,15,30,45];const h=1+rnd(12),m=mins[rnd(mins.length)];
+    ck.innerHTML=clockSVG(h,m);const right=dig(h,m);const pool=new Set([right]);
+    while(pool.size<3){const hh=1+rnd(12),mm=mins[rnd(mins.length)];pool.add(dig(hh,mm))}
+    const ch=shuffle([...pool]);
+    ckO.innerHTML=ch.map(d=>{const [hh,mm]=d.split(':').map(Number);return `<button class="opt" data-v="${d}" style="flex-direction:column;gap:0"><span style="font-size:1.4rem;font-variant-numeric:tabular-nums">${d}</span><small class="note">${phrase(hh,mm)}</small></button>`}).join('');
+    ckO.onclick=e=>{const b=e.target.closest('.opt');if(!b)return;if(b.dataset.v===right){b.classList.add('right');fb(ckF,true,praise()+' '+phrase(h,m));speak(phrase(h,m));addStar();ckO.onclick=null}else{b.classList.add('wrong');fb(ckF,false,'انظر إلى العقرب القصير أولًا: يدل على الساعة')}}}
+  $('#ckNext').onclick=newClock;newClock();
+
+  /* sequence */
+  const SEQS=[[['🌅','أستيقظ'],['🥣','أتناول الفطور'],['🏫','أذهب إلى المدرسة']],[['🌱','نزرع البذرة'],['💧','نسقيها بالماء'],['🌷','تنمو زهرة']],[['🚰','أفتح الماء'],['🧼','أغسل يديّ بالصابون'],['🧻','أجففهما']],[['🧦','ألبس الجوارب'],['👟','ألبس الحذاء'],['🚪','أخرج من البيت']],[['🥚','بيضة'],['🐣','يفقس الكتكوت'],['🐔','يكبر ويصبح دجاجة']],[['📖','أفتح الكتاب'],['👀','أقرأ القصة'],['😴','أنام']]];
+  const sq=$('#sq'),sqF=$('#sqFb');let si=-1,got=0,cur=null;const ORD=['أولًا','ثم','أخيرًا'];
+  function newSeq(){si=(si+1)%SEQS.length;cur=SEQS[si];got=0;sqF.textContent='';const sh=shuffle(cur.map((c,i)=>({c,i})));
+    sq.innerHTML=sh.map(o=>`<button data-i="${o.i}"><span class="emo" aria-hidden="true">${o.c[0]}</span><span class="nm">${esc(o.c[1])}</span></button>`).join('')}
+  sq.onclick=e=>{const b=e.target.closest('button');if(!b||b.classList.contains('picked'))return;
+    if(+b.dataset.i===got){b.classList.add('picked');b.insertAdjacentHTML('beforeend',`<span class="num">${got+1}</span>`);speak(ORD[got]+' '+cur[got][1]);got++;
+      if(got===3){fb(sqF,true,praise()+' '+cur.map((c,i)=>ORD[i]+' '+c[1]).join('، '));addStar()}}
+    else{b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');fb(sqF,false,got===0?'ماذا يحدث أولًا؟':'وماذا يحدث بعد ذلك؟')}};
+  $('#sqNext').onclick=newSeq;newSeq();
+};
+
+/* ---------- faces ---------- */
+function faceSVG(mood='calm',look=[0,0],sparkle=false){
+  const [dx,dy]=look;const px=dx*7,py=dy*6;
+  const brows={calm:['M62 70 Q75 64 88 70','M112 70 Q125 64 138 70'],happy:['M62 68 Q75 60 88 68','M112 68 Q125 60 138 68'],sad:['M62 66 Q75 70 88 74','M112 74 Q125 70 138 66'],angry:['M62 64 L88 76','M112 76 L138 64'],surprised:['M62 58 Q75 50 88 58','M112 58 Q125 50 138 58'],scared:['M62 66 Q75 56 88 62','M112 62 Q125 56 138 66']}[mood];
+  const mouth={calm:'<path d="M80 135 Q100 145 120 135" fill="none" stroke="#5B3A2E" stroke-width="5" stroke-linecap="round"/>',happy:'<path d="M70 128 Q100 165 130 128 Z" fill="#8E3B2F"/><path d="M80 132 Q100 140 120 132" fill="#fff"/>',sad:'<path d="M75 148 Q100 125 125 148" fill="none" stroke="#5B3A2E" stroke-width="5" stroke-linecap="round"/>',angry:'<path d="M78 142 Q100 132 122 142" fill="none" stroke="#5B3A2E" stroke-width="5" stroke-linecap="round"/>',surprised:'<ellipse cx="100" cy="142" rx="13" ry="17" fill="#8E3B2F"/>',scared:'<path d="M78 142 Q86 134 94 142 Q100 148 106 142 Q114 134 122 142" fill="none" stroke="#5B3A2E" stroke-width="5" stroke-linecap="round"/>'}[mood];
+  const er=mood==='surprised'||mood==='scared'?16:14;
+  const sp=sparkle?[75,125].map(x=>`<g transform="translate(${x+px} ${92+py})"><path d="M0 -13 L3 -3 L13 0 L3 3 L0 13 L-3 3 L-13 0 L-3 -3Z" fill="#F2B33D"/></g>`).join(''):'';
+  return `<svg viewBox="0 0 200 200" role="img" aria-label="وجه صديق"><circle cx="100" cy="104" r="84" fill="#F3C9A0"/><path d="M18 96 Q24 22 100 20 Q176 22 182 96 Q160 50 100 52 Q40 50 18 96Z" fill="#4A3426"/><circle cx="20" cy="108" r="12" fill="#EDB98C"/><circle cx="180" cy="108" r="12" fill="#EDB98C"/>
+  <ellipse cx="75" cy="92" rx="${er}" ry="${er+1}" fill="#fff"/><ellipse cx="125" cy="92" rx="${er}" ry="${er+1}" fill="#fff"/>
+  <circle cx="${75+px}" cy="${92+py}" r="7" fill="#2B2B2B"/><circle cx="${125+px}" cy="${92+py}" r="7" fill="#2B2B2B"/><circle cx="${77+px}" cy="${90+py}" r="2.2" fill="#fff"/><circle cx="${127+px}" cy="${90+py}" r="2.2" fill="#fff"/>
+  ${brows.map(d=>`<path d="${d}" fill="none" stroke="#4A3426" stroke-width="5" stroke-linecap="round"/>`).join('')}
+  <circle cx="58" cy="122" r="9" fill="#F0A58C" opacity=".6"/><circle cx="142" cy="122" r="9" fill="#F0A58C" opacity=".6"/>${mouth}${sp}</svg>`}
+
+inits.eyes=()=>{
+  /* eye sparkle */
+  const box=$('#ewFace'),hit=$('#ewHit'),sc=$('#ewScore'),ef=$('#ewFb'),st=$('#ewStart');
+  let on=false,count=0,shown=0,tmo=null,playing=false;
+  const paintF=(m,s)=>{box.querySelector('svg')?.remove();box.insertAdjacentHTML('afterbegin',faceSVG(m,[0,0],s))};
+  paintF('calm',false);
+  function cycle(){if(!playing)return;if(shown>=5){playing=false;st.disabled=false;st.textContent='العب مرة أخرى';fb(ef,true,'أحسنت! نظرت إلى العينين '+count+' مرات');if(count)addStar();return}
+    tmo=setTimeout(()=>{on=true;shown++;paintF('happy',true);tone([988]);tmo=setTimeout(()=>{on=false;paintF('calm',false);cycle()},1800)},1200+rnd(1600))}
+  st.onclick=()=>{count=0;shown=0;playing=true;st.disabled=true;sc.textContent='0 من 5';ef.textContent='انظر إلى عيني الصديق';cycle()};
+  hit.onclick=()=>{if(!on)return;on=false;count++;sc.textContent=count+' من 5';yay();ef.className='feedback good';ef.textContent=praise()};
+
+  /* gaze */
+  const gz=$('#gz'),gf=$('#gzFb');const OBJ=['🍎','🧸','⚽','🚗','🎈','🐱','📚','🌼','🍌','🦆'];
+  function newGaze(){gf.textContent='';const objs=pick(OBJ,3),dirs=[[-1,0],[1,0],[0,1]],t=rnd(3);
+    gz.innerHTML=`<button class="obj" data-i="1" aria-label="${objs[1]}">${objs[1]}</button><div class="facebox">${faceSVG('calm',dirs[t])}</div><button class="obj" data-i="0" aria-label="${objs[0]}">${objs[0]}</button><button class="obj down" data-i="2" aria-label="${objs[2]}">${objs[2]}</button>`;
+    // RTL grid: first child sits on the right. dirs: [-1,0]=looks left (screen), [1,0]=right
+    gz.onclick=e=>{const b=e.target.closest('.obj');if(!b)return;if(+b.dataset.i===t){b.style.borderColor='var(--leaf)';fb(gf,true,praise()+' كان ينظر إلى '+objs[t]);addStar();gz.onclick=null}else{fb(gf,false,'انظر إلى عينيه: إلى أين تتجهان؟')}};
+    speak('إلى أين ينظر صديقي؟')}
+  // with dir=rtl: first grid item (data-i=1) is on the right; face pupils dx=+1 look right → index 1 must map to [1,0]
+  const _ng=newGaze;
+  $('#gzNext').onclick=()=>_ng();
+  // fix mapping: data-i 0 placed on the left => dirs[0]=[-1,0] left ✓ ; data-i 1 placed right => dirs[1]=[1,0] right ✓
+  newGaze();
+
+  /* emotions */
+  const MO=[['happy','سعيد','عندما نلعب مع أصدقائنا أو نحصل على شيء نحبه.'],['sad','حزين','عندما تنكسر لعبتنا أو نفتقد شخصًا نحبه.'],['angry','غاضب','عندما يأخذ أحد لعبتنا دون استئذان. نتنفس بعمق ونقول: أنا غاضب.'],['surprised','متفاجئ','عندما نرى هدية لم نتوقعها.'],['scared','خائف','عندما نسمع صوتًا عاليًا فجأة. نطلب المساعدة من شخص كبير.']];
+  const emF=$('#emFace'),emO=$('#emOpts'),emFb=$('#emFb'),emW=$('#emWhen');let last=-1;
+  function newEm(){emFb.textContent='';emW.textContent='';let i;do{i=rnd(MO.length)}while(i===last);last=i;const m=MO[i];emF.innerHTML=faceSVG(m[0]);
+    const ch=shuffle([m,...pick(MO.filter(x=>x!==m),2)]);emO.innerHTML=ch.map(c=>`<button class="opt" data-v="${c[0]}">${c[1]}</button>`).join('');
+    emO.onclick=e=>{const b=e.target.closest('.opt');if(!b)return;if(b.dataset.v===m[0]){b.classList.add('right');fb(emFb,true,praise()+' إنه '+m[1]);emW.textContent='نشعر بأننا '+m[1]+' '+m[2];speak('إنه '+m[1]);addStar();emO.onclick=null}else{b.classList.add('wrong');fb(emFb,false,'انظر إلى الفم والحاجبين')}}}
+  $('#emNext').onclick=newEm;newEm();
+
+  /* turn taking */
+  const tw=$('#tw'),tt=$('#twTurn'),kid=$('#twKid'),ad=$('#twAdult'),twf=$('#twFb');let blocks=[],turn='k';
+  function rTw(){tw.innerHTML=blocks.map(b=>`<i style="background:${b==='k'?'var(--teal)':'var(--sun)'};width:${120-blocks.length*2}px"></i>`).join('');kid.disabled=turn!=='k'||blocks.length>=10;ad.disabled=turn!=='a'||blocks.length>=10;tt.textContent=blocks.length>=10?'اكتمل البرج!':'دور: '+(turn==='k'?'الطفل':'المرافق')}
+  function add(w){blocks.push(w);tone([w==='k'?523:659]);turn=w==='k'?'a':'k';if(blocks.length>=10){fb(twf,true,'بنينا البرج معًا! انتظرنا أدوارنا بصبر');addStar(2)}else{twf.className='feedback';twf.textContent=turn==='k'?'الآن دورك أنت يا بطل':'انتظر قليلًا، الآن دور المرافق'}rTw()}
+  kid.onclick=()=>add('k');ad.onclick=()=>add('a');$('#twReset').onclick=()=>{blocks=[];turn='k';twf.textContent='';rTw()};rTw();
+};
+
+/* ---------- ART ---------- */
+const PAL=['#E25B4B','#F28C38','#F2B33D','#3FA060','#3A7BD5','#8A5CC7','#E57BB0','#7A4E2D','#2B2B2B','#FFFFFF'];
+function colorPicker(id,cb){const el=$('#'+id);el.innerHTML=PAL.map((c,i)=>`<button style="background:${c}" data-c="${c}" aria-label="لون ${i+1}" aria-pressed="${i===0}"></button>`).join('');
+  el.onclick=e=>{const b=e.target.closest('button');if(!b)return;$$('button',el).forEach(x=>x.setAttribute('aria-pressed',x===b));cb(b.dataset.c)};return PAL[0]}
+inits.art=()=>{
+  /* drawing */
+  const box=$('#drBox'),cv=$('#drCanvas'),gv=$('#drGuide'),cx=cv.getContext('2d'),gx=gv.getContext('2d');
+  let color=colorPicker('drColors',c=>{color=c;erase=false;$('#drErase').setAttribute('aria-pressed','false')});let size=10,erase=false,guide='none',W=0,H=0,dpr=1;
+  seg('drSize',v=>size=+v);
+  function fit(){const keep=W?cv.toDataURL():null;dpr=Math.min(2,window.devicePixelRatio||1);W=box.clientWidth;H=box.clientHeight;[cv,gv].forEach(c=>{c.width=W*dpr;c.height=H*dpr});cx.setTransform(dpr,0,0,dpr,0,0);gx.setTransform(dpr,0,0,dpr,0,0);drawGuide();
+    if(keep){const im=new Image();im.onload=()=>cx.drawImage(im,0,0,W,H);im.src=keep}}
+  function drawGuide(){gx.clearRect(0,0,W,H);if(guide==='none')return;gx.save();gx.setLineDash([3,12]);gx.lineCap='round';gx.lineWidth=6;gx.strokeStyle='#9DB4BA';const m=Math.min(W,H)*.36,x0=W/2,y0=H/2;gx.beginPath();
+    if(guide==='circle')gx.arc(x0,y0,m,0,Math.PI*2);
+    if(guide==='square')gx.rect(x0-m,y0-m,2*m,2*m);
+    if(guide==='triangle'){gx.moveTo(x0,y0-m);gx.lineTo(x0+m*1.1,y0+m*.85);gx.lineTo(x0-m*1.1,y0+m*.85);gx.closePath()}
+    if(guide==='zigzag'){const n=6,w=W*.8;gx.moveTo(W*.1,y0+m*.5);for(let i=1;i<=n;i++)gx.lineTo(W*.1+w*i/n,i%2?y0-m*.5:y0+m*.5)}
+    if(guide==='wave'){gx.moveTo(W*.08,y0);for(let x=W*.08;x<=W*.92;x+=4)gx.lineTo(x,y0+Math.sin((x-W*.08)/(W*.84)*Math.PI*4)*m*.55)}
+    gx.stroke();gx.restore()}
+  $('#drGuides').onclick=e=>{const b=e.target.closest('button');if(!b)return;$$('#drGuides button').forEach(x=>x.setAttribute('aria-pressed',x===b));guide=b.dataset.g;drawGuide()};
+  $('#drErase').onclick=e=>{erase=!erase;e.currentTarget.setAttribute('aria-pressed',erase)};
+  $('#drClear').onclick=()=>cx.clearRect(0,0,W,H);
+  let drawing=false,lp=null;
+  const pos=e=>{const r=cv.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top]};
+  cv.addEventListener('pointerdown',e=>{drawing=true;lp=pos(e);try{cv.setPointerCapture(e.pointerId)}catch(_){}dot(lp)});
+  cv.addEventListener('pointermove',e=>{if(!drawing)return;const p=pos(e);line(lp,p);lp=p});
+  ['pointerup','pointercancel','pointerleave'].forEach(t=>cv.addEventListener(t,()=>drawing=false));
+  function style(){cx.globalCompositeOperation=erase?'destination-out':'source-over';cx.strokeStyle=cx.fillStyle=color;cx.lineWidth=erase?size*2:size;cx.lineCap=cx.lineJoin='round'}
+  function dot(p){style();cx.beginPath();cx.arc(p[0],p[1],(erase?size*2:size)/2,0,7);cx.fill()}
+  function line(a,b){style();cx.beginPath();cx.moveTo(a[0],a[1]);cx.lineTo(b[0],b[1]);cx.stroke()}
+  fit();let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(!$('[data-view="art"]').hidden)fit()},200)});
+
+  /* coloring */
+  let fill=colorPicker('clColors',c=>fill=c);
+  const PAGES={house:`<svg viewBox="0 0 400 300" class="color-page" role="img" aria-label="صفحة تلوين: بيت">
+    <rect data-r x="2" y="2" width="396" height="210"/><circle data-r cx="330" cy="62" r="30"/>
+    <path data-r d="M58 82a20 20 0 0 1 34-14a26 26 0 0 1 46 8a18 18 0 0 1-4 34h-72a17 17 0 0 1-4-28z"/>
+    <rect data-r x="2" y="212" width="396" height="86"/><rect data-r x="120" y="140" width="140" height="110"/>
+    <polygon data-r points="104,146 190,80 276,146"/><rect data-r x="172" y="195" width="36" height="55"/>
+    <rect data-r x="135" y="162" width="28" height="28"/><rect data-r x="222" y="162" width="28" height="28"/>
+    <rect data-r x="316" y="172" width="18" height="70"/><circle data-r cx="325" cy="150" r="38"/>
+    <circle data-r cx="58" cy="246" r="14"/><circle data-r cx="40" cy="246" r="9"/><circle data-r cx="76" cy="246" r="9"/><circle data-r cx="58" cy="228" r="9"/><circle data-r cx="58" cy="264" r="9"/></svg>`,
+   fish:`<svg viewBox="0 0 400 300" class="color-page" role="img" aria-label="صفحة تلوين: سمكة">
+    <rect data-r x="2" y="2" width="396" height="296"/><path data-r d="M2 250Q100 228 200 250T398 248V298H2Z"/>
+    <path data-r d="M60 252Q42 212 60 180Q78 150 60 120L72 116Q94 150 76 182Q60 212 76 252Z"/>
+    <polygon data-r points="288,140 346,98 346,182"/><path data-r d="M188 94Q214 58 244 98Z"/>
+    <ellipse data-r cx="210" cy="140" rx="86" ry="50"/><path data-r d="M240 100Q254 140 240 180"/><path data-r d="M262 108Q274 140 262 172"/>
+    <circle data-r cx="160" cy="128" r="11"/><circle cx="157" cy="128" r="5" fill="#2B2B2B"/>
+    <circle data-r cx="118" cy="80" r="9"/><circle data-r cx="100" cy="54" r="7"/><circle data-r cx="112" cy="30" r="5"/>
+    <path data-r d="M320 262l7 14 15 2-11 10 3 15-14-7-14 7 3-15-11-10 15-2z"/></svg>`};
+  const clBox=$('#clBox');let page='house';
+  function loadPage(){clBox.innerHTML=PAGES[page];const saved=load('color.'+page,{});$$('[data-r]',clBox).forEach((p,i)=>{p.setAttribute('fill',saved[i]||'#FFFFFF');p.dataset.i=i})}
+  clBox.onclick=e=>{const p=e.target.closest('[data-r]');if(!p)return;p.setAttribute('fill',fill);tone([660]);const s=load('color.'+page,{});s[p.dataset.i]=fill;save('color.'+page,s)};
+  seg('clPage',v=>{page=v;loadPage()});
+  $('#clReset').onclick=()=>{save('color.'+page,{});loadPage()};loadPage();
+
+  /* memory */
+  const EM=['🐱','🐶','🐰','🦁','🐸','🐵','🐼','🐧','🦒','🐢','🐘','🦋'];
+  const mm=$('#mm'),mv=$('#mmMoves'),mf=$('#mmFb');let open=[],moves=0,found=0,pairs=3,lock=false;
+  const lv=seg('mmLevel',v=>{pairs=+v;deal()});
+  function deal(){const set=pick(EM,pairs);const deck=shuffle([...set,...set]);open=[];moves=0;found=0;lock=false;mv.textContent='المحاولات: 0';mf.textContent='';
+    const cols=pairs===3?3:4;mm.style.gridTemplateColumns=`repeat(${cols},1fr)`;mm.style.maxWidth=pairs===3?'330px':'440px';
+    mm.innerHTML=deck.map((e,i)=>`<button class="card" data-e="${e}" aria-label="بطاقة ${i+1}"><span class="in"><span class="f">؟</span><span class="b">${e}</span></span></button>`).join('')}
+  mm.onclick=e=>{const c=e.target.closest('.card');if(!c||lock||c.classList.contains('flip')||c.classList.contains('got'))return;c.classList.add('flip');open.push(c);tone([587]);
+    if(open.length===2){moves++;mv.textContent='المحاولات: '+moves;const [a,b]=open;
+      if(a.dataset.e===b.dataset.e){a.classList.add('got');b.classList.add('got');open=[];found++;yay();if(found===pairs){fb(mf,true,praise()+' وجدت كل الأزواج في '+moves+' محاولة');addStar(pairs>3?2:1)}}
+      else{lock=true;setTimeout(()=>{a.classList.remove('flip');b.classList.remove('flip');open=[];lock=false},900)}}};
+  deal();
+};
+
+/* ---------- LETTERS ---------- */
+const LET=[['أ','ألف','أرنب','🐰'],['ب','باء','بطة','🦆'],['ت','تاء','تفاحة','🍎'],['ث','ثاء','ثعلب','🦊'],['ج','جيم','جمل','🐫'],['ح','حاء','حصان','🐴'],['خ','خاء','خروف','🐑'],['د','دال','دب','🐻'],['ذ','ذال','ذرة','🌽'],['ر','راء','روبوت','🤖'],['ز','زاي','زرافة','🦒'],['س','سين','سمكة','🐟'],['ش','شين','شمس','☀️'],['ص','صاد','صقر','🦅'],['ض','ضاد','ضفدع','🐸'],['ط','طاء','طائرة','✈️'],['ظ','ظاء','ظرف','✉️'],['ع','عين','عنب','🍇'],['غ','غين','غيمة','☁️'],['ف','فاء','فيل','🐘'],['ق','قاف','قمر','🌙'],['ك','كاف','كتاب','📖'],['ل','لام','ليمون','🍋'],['م','ميم','موز','🍌'],['ن','نون','نحلة','🐝'],['ه','هاء','هدية','🎁'],['و','واو','وردة','🌹'],['ي','ياء','يد','✋']];
+const NONJOIN='أادذرزو';
+function forms(ch){const base=ch==='أ'?'ا':ch;const j=!NONJOIN.includes(ch);return [[base,'منفصل'],[j?base+'ـ':base,'أول'],[j?'ـ'+base+'ـ':'ـ'+base,'وسط'],['ـ'+base,'آخر']]}
+inits.letters=()=>{
+  const abc=$('#abc'),card=$('#lCard');
+  abc.innerHTML=LET.map((l,i)=>`<button data-i="${i}" aria-pressed="${i===0}" aria-label="حرف ${l[1]}">${l[0]}</button>`).join('');
+  function showL(i){const l=LET[i];$$('button',abc).forEach((b,k)=>b.setAttribute('aria-pressed',k===i));
+    card.innerHTML=`<div class="big-letter" aria-hidden="true">${l[0]}</div><div><h3 style="font-size:1.6rem">حرف ${l[1]}</h3>
+    <div class="forms">${forms(l[0]).map(f=>`<span>${f[0]}<small>${f[1]}</small></span>`).join('')}</div>
+    <p style="font-size:1.3rem"><span aria-hidden="true" style="font-size:2rem">${l[3]}</span> <b>${l[2]}</b></p>
+    <div class="row" style="margin-top:8px"><button class="say" id="lSay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9v6h4l5 4V5L8 9z"/></svg>اسمع</button><button class="btn sm soft" id="lTrace">اكتب هذا الحرف</button></div></div>`;
+    $('#lSay').onclick=()=>speak('حرف '+l[1]+'. '+l[2]);$('#lTrace').onclick=()=>{ti=i;setTrace();$('#trBox').scrollIntoView({behavior:'smooth',block:'center'})}}
+  abc.onclick=e=>{const b=e.target.closest('button');if(!b)return;showL(+b.dataset.i);speak(LET[+b.dataset.i][1])};
+  showL(0);
+
+  /* spelling */
+  const W1=[['قط','🐱'],['باب','🚪'],['موز','🍌'],['بيت','🏠'],['قمر','🌙'],['فيل','🐘'],['شمس','☀️'],['دب','🐻'],['عنب','🍇'],['يد','✋']];
+  const W2=[['كتاب','📖'],['سمكة','🐟'],['وردة','🌹'],['نحلة','🐝'],['تفاحة','🍎'],['زرافة','🦒'],['حصان','🐴'],['قلم','✏️'],['طائرة','✈️'],['ليمون','🍋']];
+  const spLvl=seg('spLevel',()=>newWord());const slotsEl=$('#spSlots'),tilesEl=$('#spTiles'),jEl=$('#spJoined'),spF=$('#spFb');
+  let word=null,letters=[],tiles=[],slots=[],solved=false,wi=-1;
+  function newWord(){const list=spLvl()==='1'?W1:W2;let i;do{i=rnd(list.length)}while(i===wi&&list.length>1);wi=i;word=list[i];letters=[...word[0]];solved=false;
+    const extra=spLvl()==='2'?[pick(LET.map(l=>l[0]==='أ'?'ا':l[0]).filter(c=>!letters.includes(c)),1)[0]]:[];
+    tiles=shuffle([...letters,...extra]).map((c,k)=>({c,k,used:false}));slots=letters.map(()=>null);
+    $('#spEmo').textContent=word[1];jEl.textContent='';spF.textContent='';rSp();speak(word[0])}
+  function rSp(){slotsEl.innerHTML=slots.map((t,i)=>`<button class="slot${t?' filled':''}" data-i="${i}" aria-label="خانة ${i+1}">${t?t.c:''}</button>`).join('');
+    tilesEl.innerHTML=tiles.map(t=>`<button class="ltile" data-k="${t.k}" ${t.used||solved?'disabled':''}>${t.c}</button>`).join('')}
+  tilesEl.onclick=e=>{const b=e.target.closest('.ltile');if(!b||solved)return;const t=tiles.find(x=>x.k===+b.dataset.k);const i=slots.indexOf(null);if(i<0)return;slots[i]=t;t.used=true;tone([523]);rSp()};
+  slotsEl.onclick=e=>{const b=e.target.closest('.slot');if(!b||solved)return;const i=+b.dataset.i;if(!slots[i])return;slots[i].used=false;slots[i]=null;rSp()};
+  $('#spCheck').onclick=()=>{if(solved)return;if(slots.includes(null)){fb(spF,false,'أكمل كل الخانات أولًا');return}
+    let bad=0;$$('.slot',slotsEl).forEach((s,i)=>{const ok=slots[i].c===letters[i];s.classList.add(ok?'ok':'bad');if(!ok)bad++});
+    if(!bad){solved=true;jEl.textContent=word[0];fb(spF,true,praise()+' الكلمة هي '+word[0]);speak(word[0]);addStar();$$('.ltile',tilesEl).forEach(b=>b.disabled=true)}
+    else fb(spF,false,'الخانات الحمراء تحتاج تصحيحًا. اضغط عليها لإرجاع الحرف وجرّب غيره')};
+  $('#spHint').onclick=()=>{if(solved)return;let i=slots.findIndex((t,k)=>!t||t.c!==letters[k]);if(i<0)return;
+    if(slots[i]){slots[i].used=false;slots[i]=null;rSp()}const s=$$('.slot',slotsEl)[i];s.textContent=letters[i];s.classList.add('hint');spF.className='feedback';spF.textContent='الحرف الصحيح هنا هو «'+letters[i]+'»';setTimeout(()=>{if(!slots[i]&&!solved)rSp()},1600)};
+  $('#spSay').onclick=()=>word&&speak(word[0]);$('#spNext').onclick=newWord;newWord();
+
+  /* tracing */
+  const tb=$('#trBox'),gC=$('#trGuide'),mC=$('#trMark'),dC=$('#trDraw'),g=gC.getContext('2d'),mk=mC.getContext('2d'),d=dC.getContext('2d'),tf=$('#trFb');
+  let S=0,dpr=1,ti=0;const FONT=f=>`700 ${f}px "IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif`;
+  function letterOf(i){return LET[i][0]}
+  function placeText(ctx,ch,size){ctx.font=FONT(size);ctx.textAlign='center';ctx.textBaseline='alphabetic';ctx.direction='rtl';const m=ctx.measureText(ch);const y=S/2+((m.actualBoundingBoxAscent||size*.6)-(m.actualBoundingBoxDescent||0))/2;return y}
+  function setTrace(){S=tb.clientWidth;dpr=Math.min(2,window.devicePixelRatio||1);[gC,mC,dC].forEach(c=>{c.width=S*dpr;c.height=S*dpr});[g,mk,d].forEach(c=>c.setTransform(dpr,0,0,dpr,0,0));
+    $('#trName').textContent='حرف '+LET[ti][1];tf.textContent='';const ch=letterOf(ti);const size=S*.62;
+    g.clearRect(0,0,S,S);g.strokeStyle='#E3ECEE';g.lineWidth=1;for(let k=1;k<4;k++){g.beginPath();g.moveTo(0,S*k/4);g.lineTo(S,S*k/4);g.stroke()}
+    const y=placeText(g,ch,size);g.fillStyle='#DDE7EA';g.fillText(ch,S/2,y);g.setLineDash([2,8]);g.lineWidth=2;g.strokeStyle='#8FA7AD';g.strokeText(ch,S/2,y);g.setLineDash([]);
+    mk.clearRect(0,0,S,S);d.clearRect(0,0,S,S)}
+  let tr=false,lp=null;const brush=()=>Math.max(14,S*.055);
+  const tp=e=>{const r=dC.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top]};
+  dC.addEventListener('pointerdown',e=>{tr=true;lp=tp(e);try{dC.setPointerCapture(e.pointerId)}catch(_){}d.fillStyle='#0E6E78';d.beginPath();d.arc(lp[0],lp[1],brush()/2,0,7);d.fill();mk.clearRect(0,0,S,S)});
+  dC.addEventListener('pointermove',e=>{if(!tr)return;const p=tp(e);d.strokeStyle='#0E6E78';d.lineWidth=brush();d.lineCap=d.lineJoin='round';d.beginPath();d.moveTo(lp[0],lp[1]);d.lineTo(p[0],p[1]);d.stroke();lp=p});
+  ['pointerup','pointercancel','pointerleave'].forEach(t=>dC.addEventListener(t,()=>tr=false));
+  $('#trClear').onclick=()=>{d.clearRect(0,0,S,S);mk.clearRect(0,0,S,S);tf.textContent=''};
+  $('#trPrev').onclick=()=>{ti=(ti+LET.length-1)%LET.length;setTrace()};$('#trNext').onclick=()=>{ti=(ti+1)%LET.length;setTrace()};
+  $('#trCheck').onclick=()=>{const N=Math.round(S);const core=document.createElement('canvas'),zone=document.createElement('canvas');core.width=zone.width=N;core.height=zone.height=N;
+    const cc=core.getContext('2d'),zc=zone.getContext('2d');const ch=letterOf(ti),size=S*.62;
+    let y=placeText(cc,ch,size);cc.fillStyle='#000';cc.fillText(ch,S/2,y);
+    y=placeText(zc,ch,size);zc.fillStyle='#000';zc.strokeStyle='#000';zc.lineWidth=brush()*1.6;zc.lineJoin='round';zc.fillText(ch,S/2,y);zc.strokeText(ch,S/2,y);
+    const sm=document.createElement('canvas');sm.width=sm.height=N;sm.getContext('2d').drawImage(dC,0,0,N,N);
+    const A=cc.getImageData(0,0,N,N).data,Z=zc.getImageData(0,0,N,N).data,D=sm.getContext('2d').getImageData(0,0,N,N).data;
+    let coreN=0,cov=0,strokeN=0,out=0;const miss=[];const step=2;
+    for(let yy=0;yy<N;yy+=step)for(let xx=0;xx<N;xx+=step){const k=(yy*N+xx)*4+3;const inC=A[k]>100,inZ=Z[k]>60,drawn=D[k]>60;
+      if(inC){coreN++;if(drawn)cov++;else miss.push([xx,yy])}if(drawn){strokeN++;if(!inZ)out++}}
+    if(!strokeN){fb(tf,false,'ابدأ بتمرير إصبعك فوق الحرف');return}
+    const c=cov/Math.max(1,coreN),o=out/strokeN;mk.clearRect(0,0,S,S);
+    if(c>=.6&&o<=.25){fb(tf,true,praise()+' كتبت حرف '+LET[ti][1]);addStar();speak('أحسنت')}
+    else{mk.fillStyle='rgba(217,97,79,.75)';miss.forEach(p=>mk.fillRect(p[0],p[1],step,step));
+      fb(tf,false,o>.25?'بعض الخطوط خرجت عن الحرف. حاول أن تبقى فوق الحرف الباهت':'الأجزاء الحمراء لم تكتمل بعد. أكملها ثم اضغط «تحقق»')}};
+  const go=()=>setTrace();if(document.fonts&&document.fonts.load){document.fonts.load(FONT(100),'أب').then(go,go)}else go();
+  let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(!$('[data-view="letters"]').hidden&&Math.abs(tb.clientWidth-S)>4)setTrace()},200)});
+};
+
+/* ---------- ASK AI ---------- */
+const sampleP=(window.claude&&typeof window.claude.use==='function')?window.claude.use('sample').catch(()=>null):Promise.resolve(null);
+const RULES='أنت «رفيق»، مساعد عربي داخل تطبيق توعوي عن الإعاقات الذهنية والنمائية (التوحد، متلازمة داون، متلازمة إكس الهش وغيرها). تجيب أولياء الأمور والمعلمين والأخصائيين بالعربية الفصحى المبسطة، بإجابات عملية ومنظمة، بنقاط قصيرة عند الحاجة، وفي حدود 200 كلمة ما لم يُطلب أكثر. اعتمد على ما تتفق عليه الجهات الموثوقة مثل منظمة الصحة العالمية وCDC والجمعية الأمريكية للإعاقات الذهنية والنمائية والممارسات القائمة على الدليل. لا تشخّص ولا تصف أدوية أو جرعات، وانصح بمراجعة الطبيب أو الأخصائي عند الحاجة، وبطلب المساعدة العاجلة إن وُجد خطر على أحد. استخدم لغة تحترم الشخص أولًا. إن خرج السؤال عن الموضوع فأجب باختصار ثم أعد الحديث بلطف إلى موضوع التطبيق. استخدم Markdown بسيطًا فقط: عناوين ##، ونقاط -، وأرقام 1.، وخط عريض **.';
+function md(t){const lines=esc(t).split('\n');let h='',list=null;const close=()=>{if(list){h+='</'+list+'>';list=null}};
+  const inl=s=>s.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+  for(let ln of lines){const s=ln.trim();let m;
+    if(!s){close();continue}
+    if(m=s.match(/^#{1,4}\s+(.*)/)){close();h+='<h4>'+inl(m[1])+'</h4>';continue}
+    if(m=s.match(/^[-*•]\s+(.*)/)){if(list!=='ul'){close();h+='<ul>';list='ul'}h+='<li>'+inl(m[1])+'</li>';continue}
+    if(m=s.match(/^\d+[.)]\s+(.*)/)){if(list!=='ol'){close();h+='<ol>';list='ol'}h+='<li>'+inl(m[1])+'</li>';continue}
+    close();h+='<p>'+inl(s)+'</p>'}
+  close();return h}
+function errCopy(c){return ({not_granted:'لم يُسمح للتطبيق باستخدام Claude. يمكنك السماح من إعدادات الأذونات ثم المحاولة.',sampling_disabled:'المساعد غير متاح لهذا الحساب.',rate_limited:'طلبات كثيرة في وقت قصير. انتظر قليلًا ثم حاول مرة أخرى.',refused:'لم أستطع الإجابة عن هذا الطلب. جرّب صياغة أخرى.',invalid_json:'لم تكتمل القصة بالشكل المطلوب. اضغط «أنشئ القصة» مرة أخرى.',session_expired:'انتهت الجلسة. سجّل الدخول مرة أخرى.',empty_completion:'لم تصل إجابة. جرّب صياغة أبسط.'})[c]||'انقطع الاتصال. حاول مرة أخرى.'}
+const DISABLED=['not_granted','sampling_disabled','not_declared','capability_disabled','capability_removed'];
+inits.ask=()=>{
+  $('#aiTabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$$('#aiTabs button').forEach(x=>x.setAttribute('aria-pressed',x===b));$$('[data-tab]').forEach(p=>p.hidden=p.dataset.tab!==b.dataset.t)});
+  let sample=null;
+  sampleP.then(s=>{sample=s;if(!s)$('#aiOff').hidden=false});
+  const off=()=>{$('#aiOff').hidden=false};
+  /* chat */
+  const chat=$('#chat'),inp=$('#chatIn'),send=$('#chatSend'),stop=$('#chatStop');let turns=[],ctl=null;
+  function bubble(cls,html){const d=document.createElement('div');d.className='msg '+cls;d.innerHTML=html;chat.appendChild(d);chat.scrollTop=chat.scrollHeight;return d}
+  bubble('a','<p>مرحبًا، أنا رفيق. اسألني عن التوحد أو متلازمة داون أو أي إعاقة ذهنية، أو عن مواقف يومية مع طفلك.</p>');
+  async function ask(q){q=q.trim();if(!q||ctl)return;if(!sample){off();return}
+    bubble('u',esc(q));inp.value='';turns.push({role:'user',content:q});if(turns.length>12)turns=turns.slice(-12);while(turns[0]&&turns[0].role!=='user')turns.shift();
+    const b=bubble('a','<span class="thinking">أفكر</span>');ctl=new AbortController();send.disabled=true;stop.hidden=false;
+    try{const {text,truncated}=await sample([{role:'user',content:RULES},...turns],{cache:false,signal:ctl.signal,onText:({text})=>{b.innerHTML=md(text);chat.scrollTop=chat.scrollHeight}});
+      b.innerHTML=md(text)+(truncated?'<p class="note">انقطعت الإجابة لطولها. اطلب جزءًا أصغر.</p>':'');turns.push({role:'assistant',content:text})}
+    catch(e){const c=e&&e.code;if(c==='cancelled'){b.innerHTML=e.text?md(e.text):'<p class="note">توقفت.</p>'}else{b.innerHTML=(e&&e.text?md(e.text):'')+'<p class="note">'+esc(errCopy(c))+'</p>';if(DISABLED.includes(c))off()}turns.pop()}
+    finally{ctl=null;send.disabled=false;stop.hidden=true}}
+  send.onclick=()=>ask(inp.value);stop.onclick=()=>ctl&&ctl.abort();
+  inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();ask(inp.value)}});
+  $('#chatSug').onclick=e=>{const b=e.target.closest('.chip');if(b)ask(b.textContent)};
+
+  /* idea */
+  const idOut=$('#idOut'),idGo=$('#idGo'),idStop=$('#idStop');let ictl=null;
+  $('#ideaForm').addEventListener('submit',async e=>{e.preventDefault();if(ictl)return;if(!sample){off();return}
+    const p=`اقترح نشاطًا واحدًا عمليًا وممتعًا لطفل.\nالعمر: ${$('#idAge').value}\nالحالة: ${$('#idCond').value}\nالمهارة المستهدفة: ${$('#idSkill').value}\nالمكان: ${$('#idPlace').value}\nأدوات أو اهتمامات: ${$('#idTools').value.trim()||'غير محدد، استخدم أدوات منزلية بسيطة'}\n\nاكتب بالعربية بهذا الترتيب فقط:\n## اسم النشاط\n**الهدف:** سطر واحد\n**المدة:** بالدقائق\n**الأدوات:** قائمة قصيرة\n**الخطوات:** من 4 إلى 6 خطوات مرقمة وقصيرة\n**لتسهيله:** نقطة أو نقطتان\n**لجعله أصعب:** نقطة أو نقطتان\n**التعزيز:** كيف نكافئ المحاولة بشكل طبيعي\nلا تتجاوز 230 كلمة.`;
+    idOut.innerHTML='<p class="thinking">أجهّز فكرة</p>';ictl=new AbortController();idGo.disabled=true;idStop.hidden=false;
+    try{const {text}=await sample([{role:'user',content:RULES},{role:'user',content:p}],{cache:false,signal:ictl.signal,onText:({text})=>idOut.innerHTML=md(text)});idOut.innerHTML=md(text);idGo.textContent='فكرة أخرى'}
+    catch(err){const c=err&&err.code;idOut.innerHTML=(err&&err.text?md(err.text):'')+(c==='cancelled'?'':'<p class="feedback try">'+esc(errCopy(c))+'</p>');if(DISABLED.includes(c))off()}
+    finally{ictl=null;idGo.disabled=false;idStop.hidden=true}});
+  idStop.onclick=()=>ictl&&ictl.abort();
+
+  /* story */
+  $('#stSit').onchange=e=>$('#stCustomL').hidden=e.target.value!=='custom';
+  const stOut=$('#stOut'),stErr=$('#stErr'),stGo=$('#stGo'),stWait=$('#stWait');let busy=false;
+  $('#stForm').addEventListener('submit',async e=>{e.preventDefault();if(busy)return;if(!sample){off();return}
+    const name=$('#stName').value.trim()||'أنا',boy=$('#stG').value==='boy';
+    let sit=$('#stSit').value;if(sit==='custom')sit=$('#stCustom').value.trim();if(!sit){stErr.textContent='اكتب الموقف أولًا.';return}
+    stErr.textContent='';busy=true;stGo.disabled=true;stWait.hidden=false;
+    const p=`اكتب قصة اجتماعية بالعربية الفصحى البسيطة على طريقة كارول غراي لطفل ${boy?'ولد':'بنت'} اسمه ${name}، عمره ${$('#stAge').value}، لديه احتياجات نمائية.\nالموقف: ${sit}\nالقواعد:\n- بصوت الطفل نفسه (ضمير المتكلم) وبصيغة ${boy?'المذكر':'المؤنث'}، وبالزمن المضارع.\n- من 6 إلى 8 صفحات، في كل صفحة جملة أو جملتان قصيرتان جدًا.\n- معظم الجمل وصفية (ماذا يحدث، ومن هناك، ولماذا)، مع جملتين أو ثلاث فقط بصيغة لطيفة مثل «أستطيع أن...» أو «سأحاول أن...».\n- لغة إيجابية مطمئنة، بلا تخويف ولا «يجب» ولا «لا تفعل».\n- اذكر شعورًا محتملًا وطريقة هادئة للتعامل معه (التنفس، الإمساك بيد شخص أحبه، العد حتى 5).\n- الصفحة الأخيرة تمدح الطفل وتطمئنه.\n- لكل صفحة إيموجي واحد أو اثنان يصوّران المشهد.\nأجب بـ JSON فقط بهذا الشكل:\n{"title":"عنوان قصير","pages":[{"text":"...","emoji":"🦷"}]}`;
+    stOut.innerHTML='';
+    try{const data=await sample.json(p,{cache:false});
+      const pages=Array.isArray(data&&data.pages)?data.pages.filter(x=>x&&x.text).map(x=>({text:String(x.text),emoji:String(x.emoji||'')})):[];
+      if(!pages.length)throw{code:'invalid_json'};book(String(data.title||'قصتي'),pages)}
+    catch(err){const c=err&&err.code;if(c!=='cancelled')stErr.textContent=errCopy(c);if(DISABLED.includes(c))off()}
+    finally{busy=false;stGo.disabled=false;stWait.hidden=true}});
+  function book(title,pages){let i=0;
+    stOut.innerHTML=`<div class="book"><h3 style="font-size:1.4rem">${esc(title)}</h3><div class="page" id="bkPage"></div><div class="dots" id="bkDots">${pages.map(()=>'<i></i>').join('')}</div>
+      <div class="row"><button class="btn soft" id="bkPrev">السابقة</button><button class="say" id="bkSay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9v6h4l5 4V5L8 9z"/></svg>اقرأ الصفحة</button><button class="btn" id="bkNext">التالية</button></div>
+      <details style="width:100%;max-width:520px"><summary class="note" style="cursor:pointer">عرض القصة كاملة للنسخ</summary><div class="story-list" style="margin-top:8px">${pages.map(p=>`<p>${esc(p.emoji)} ${esc(p.text)}</p>`).join('')}</div><button class="btn sm soft" id="bkCopy" style="margin-top:8px">نسخ القصة</button></details></div>`;
+    const pg=$('#bkPage'),dots=$$('#bkDots i');
+    function r(){const p=pages[i];pg.innerHTML=`<span class="emo" aria-hidden="true">${esc(p.emoji)}</span><p>${esc(p.text)}</p><span class="pn">صفحة ${i+1} من ${pages.length}</span>`;dots.forEach((d,k)=>d.classList.toggle('on',k===i));$('#bkPrev').disabled=i===0;$('#bkNext').textContent=i===pages.length-1?'من البداية':'التالية'}
+    $('#bkPrev').onclick=()=>{if(i>0){i--;r()}};$('#bkNext').onclick=()=>{i=i===pages.length-1?0:i+1;r()};$('#bkSay').onclick=()=>speak(pages[i].text);
+    $('#bkCopy').onclick=async e=>{const t=title+'\n\n'+pages.map(p=>p.text).join('\n');try{await navigator.clipboard.writeText(t);e.target.textContent='نُسخت'}catch(_){const s=getSelection(),rg=document.createRange();rg.selectNodeContents($('.story-list'));s.removeAllRanges();s.addRange(rg);e.target.textContent='حدّد النص وانسخه'}};
+    r()}
+};
+
+show();
+})();
+</script>
+
+</body></html>
